@@ -12,31 +12,31 @@ namespace WorldDrawTest {
             Level level = new Level();
             PacMan pacMan = new PacMan(51, 25, Direction.Right);
             KeyReader kR = new KeyReader();
-            string currentInput = "";
 
             while (true) {
                 pacMan.Plot();
 
-                if (currentInput != kR.Input) {
-                    currentInput = kR.Input;
-                    switch (currentInput) {
-                        case "Up":
-                            pacMan.previousDirection = pacMan.direction;
+                switch (kR.Input) {
+                    case "Up":
+                        if (pacMan.direction == null || pacMan.direction == Direction.Down)
                             pacMan.direction = Direction.Up;
-                            break;
-                        case "Right":
-                            pacMan.previousDirection = pacMan.direction;
+                        pacMan.nextDirection = Direction.Up;
+                        break;
+                    case "Right":
+                        if (pacMan.direction == null || pacMan.direction == Direction.Left)
                             pacMan.direction = Direction.Right;
-                            break;
-                        case "Left":
-                            pacMan.previousDirection = pacMan.direction;
+                        pacMan.nextDirection = Direction.Right;
+                        break;
+                    case "Left":
+                        if (pacMan.direction == null || pacMan.direction == Direction.Right)
                             pacMan.direction = Direction.Left;
-                            break;
-                        case "Down":
-                            pacMan.previousDirection = pacMan.direction;
+                        pacMan.nextDirection = Direction.Left;
+                        break;
+                    case "Down":
+                        if (pacMan.direction == null || pacMan.direction == Direction.Up)
                             pacMan.direction = Direction.Down;
-                            break;
-                    }
+                        pacMan.nextDirection = Direction.Down;
+                        break;
                 }
 
                 Thread.Sleep(30);

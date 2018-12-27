@@ -11,8 +11,8 @@ namespace WorldDrawTest {
         private int animation;
         private int animationTimer;
         private int animationSpeed;
-        public Direction direction;
-        public Direction previousDirection;
+        public Direction? direction;
+        public Direction? nextDirection;
         private int moveSpeed;
         private int speedTimer;
 
@@ -105,87 +105,59 @@ namespace WorldDrawTest {
             }
         }
 
+        private void FixDirection() {
+
+        }
+
         public void Move() {
             speedTimer++;
+            FixDirection();
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
 
                 switch (direction) {
                     case Direction.Up:
-                        if (!Level.WallCollider[x, y-1] && !Level.WallCollider[x + 4, y - 1]) {
+                        if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
                             y--;
                             ghosts[0] = uFrame1;
                             ghosts[1] = uFrame2;
-                        } else {
-                            SmoothMove();
-                        }
+                        } else
+                            direction = null;
                         break;
                     case Direction.Down:
                         if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
                             y++;
                             ghosts[0] = dFrame1;
                             ghosts[1] = dFrame2;
-                        } else {
-                            SmoothMove();
-                        }
+                        } else
+                            direction = null;
                         break;
                     case Direction.Left:
                         if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x -1, y + 2]) {
                             x--;
                             ghosts[0] = lFrame1;
                             ghosts[1] = lFrame2;
-                        } else {
-                            SmoothMove();
-                        }
+                        } else
+                            direction = null;
                         break;
                     case Direction.Right:
-                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2])
+                        {
                             x++;
                             ghosts[0] = rFrame1;
                             ghosts[1] = rFrame2;
-                        } else {
-                            SmoothMove();
-                        }
+                        } else
+                            direction = null;
+                        //} else {
+                        //    if (nextDirection != direction)
+                        //        SmoothMove();
+                        //}
+
                         break;
                     default:
                         break;
                 }
-            }
-        }
-
-        public void SmoothMove() {
-            switch (previousDirection) {
-                case Direction.Up:
-                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-                        y--;
-                        ghosts[0] = uFrame1;
-                        ghosts[1] = uFrame2;
-                    }
-                    break;
-                case Direction.Down:
-                    if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-                        y++;
-                        ghosts[0] = dFrame1;
-                        ghosts[1] = dFrame2;
-                    }
-                    break;
-                case Direction.Left:
-                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
-                        x--;
-                        ghosts[0] = lFrame1;
-                        ghosts[1] = lFrame2;
-                    }
-                    break;
-                case Direction.Right:
-                    if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-                        x++;
-                        ghosts[0] = rFrame1;
-                        ghosts[1] = rFrame2;
-                    }
-                    break;
-                default:
-                    break;
             }
         }
     }
