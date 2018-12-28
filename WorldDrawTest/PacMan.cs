@@ -105,8 +105,36 @@ namespace WorldDrawTest {
             }
         }
 
+        /// <summary>
+        /// Check's if theres a movement available to where the player wants to move
+        /// </summary>
         private void FixDirection() {
-
+            switch (nextDirection) {
+                case Direction.Up:
+                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+                        direction = nextDirection;
+                        nextDirection = null;
+                    }
+                    break;
+                case Direction.Down:
+                    if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+                        direction = nextDirection;
+                        nextDirection = null;
+                    }
+                    break;
+                case Direction.Left:
+                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
+                        direction = nextDirection;
+                        nextDirection = null;
+                    }
+                    break;
+                case Direction.Right:
+                    if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+                        direction = nextDirection;
+                        nextDirection = null;
+                    }
+                    break;
+            }
         }
 
         public void Move() {

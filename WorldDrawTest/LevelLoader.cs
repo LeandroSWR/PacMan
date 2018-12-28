@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace WorldDrawTest {
     class LevelLoader {
-        private string path = @"C:\Users\Shadow\Desktop\";
-        private string level = "PacMan Level.txt";
+        private string path = @"";
+        private string level = "PacMan_Level.txt";
         private string points = "Points.txt";
         
 
