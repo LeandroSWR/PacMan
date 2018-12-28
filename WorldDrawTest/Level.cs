@@ -10,13 +10,13 @@ namespace WorldDrawTest {
         // 107x49
 
         // PreMade Sprites
-        string[] packString = new string[4] {
+        readonly string[] packString = new string[4] {
             "╔══════╗╔═════╗╔═════╗",
             "║   ═  ║║  ═  ║║  ╔══╝",
             "║  ╔═══╝║ ╔═╗ ║║  ╚══╗",
             "╚══╝    ╚═╝ ╚═╝╚═════╝",
             };
-        string[] manString = new string[4] {
+        readonly string[] manString = new string[4] {
             "╔═╗  ╔═╗╔═════╗╔═╗ ╔═╗",
             "║ ╚╗╔╝ ║║  ═  ║║ ╚╗╣ ║",
             "║ ╠╚╝╣ ║║ ╔═╗ ║║ ╠╚╗ ║",
@@ -27,8 +27,10 @@ namespace WorldDrawTest {
         private string[] LevelSprite => loader.LevelSprite;
         private string[] PointsSprite => loader.LevelPoints;
 
+        public static readonly int x = 107;
+        public static readonly int y = 49;
         public static bool[,] WallCollider { get; private set; } = new bool[107, 49];
-        public static bool[,] PointsCollider { get; private set; } = new bool[107, 49];
+        public static char[,] PointsCollider { get; private set; } = new char[107, 49];
 
         public Level() {
             GetCollider();
@@ -48,14 +50,34 @@ namespace WorldDrawTest {
                 if (PointsSprite[i] != null) {
                     for (int u = 0; u < PointsSprite[i].Length; u++) {
                         if (PointsSprite[i][u] != ' ') {
-                            PointsCollider[u, i] = true;
+                            PointsCollider[u, i] = PointsSprite[i][u] == '▄' ? '▄' : '█';
                         }
                     }
                 }
             }
         }
 
-        public void RenderLevel() {
+        public void RenderPoints() {
+            for (int i = 0; i < LevelSprite.Length; i++) {
+                if (PointsSprite[i] != null) {
+                    for (int u = 0; u < PointsSprite[i].Length; u++) {
+                        if (PointsCollider[u, i] != default(char)) {
+                            if (PointsCollider[u, i] == '█') {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.SetCursorPosition(u, i);
+                                Console.Write(PointsCollider[u, i]);
+                                Console.ForegroundColor = ConsoleColor.White;
+                            } else {
+                                Console.SetCursorPosition(u, i);
+                                Console.Write(PointsCollider[u, i]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void RenderLevel() {
             // Display Level Borders
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < LevelSprite.Length; i++) {

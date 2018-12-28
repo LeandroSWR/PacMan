@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WorldDrawTest {
     class LevelLoader {
-        private string path = @"";
-        private string level = "PacMan_Level.txt";
-        private string points = "Points.txt";
+        private readonly string path = @"";
+        private readonly string level = "PacMan_Level.txt";
+        private readonly string points = "Points.txt";
         
 
         public string[] LevelSprite { get; private set; } = new string[49];

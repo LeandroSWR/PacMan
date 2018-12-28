@@ -20,7 +20,7 @@ namespace WorldDrawTest {
         private void GetInput() {
             ConsoleKey pressedKey;
             do {
-                pressedKey = Console.ReadKey().Key;
+                pressedKey = Console.ReadKey(true).Key;
                 keyQueue.Add(pressedKey);
             } while (pressedKey != ConsoleKey.Escape);
         }

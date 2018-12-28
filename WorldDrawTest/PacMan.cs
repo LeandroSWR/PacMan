@@ -10,11 +10,13 @@ namespace WorldDrawTest {
         private Dictionary<int, string[]> ghosts;
         private int animation;
         private int animationTimer;
-        private int animationSpeed;
+        private int speedTimer;
         public Direction? direction;
         public Direction? nextDirection;
-        private int moveSpeed;
-        private int speedTimer;
+        private readonly int animationSpeed;
+        private readonly int moveSpeed;
+
+        public int Points { get; private set; }
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -78,11 +80,11 @@ namespace WorldDrawTest {
             };
             animation = 0;
             animationTimer = 0;
-            animationSpeed = 5;
+            animationSpeed = 3;
             this.direction = direction;
 
             speedTimer = 0;
-            moveSpeed = 2;
+            moveSpeed = 1;
         }
 
         public void Plot() {
@@ -91,6 +93,7 @@ namespace WorldDrawTest {
                 animation = animation == 0 ? 1 : 0;
                 animationTimer = 0;
             }
+            
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             for (int i = 0; i < 3; i++) {
                 Console.SetCursorPosition(x, y + i);
@@ -137,9 +140,31 @@ namespace WorldDrawTest {
             }
         }
 
+
+        public void CheckPointsCollision() {
+            for (int i = 0; i < Level.y; i++) {
+                for (int u = 0; u < Level.x; u++) {
+                    if (Level.PointsCollider[u, i] != default(char)) {
+                        if (((x + 1 == u || x + 3 == u) && y + 1 == i) ||
+                            ((y == i || y + 2 == i) && x + 2 == u)) {
+                            if (Level.PointsCollider[u, i] == '█') {
+                                // Change AI State
+                            }
+                            Points += 10;
+                            Level.PointsCollider[u, i] = default(char);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves the player each frame
+        /// </summary>
         public void Move() {
             speedTimer++;
             FixDirection();
+            CheckToroidal();
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
@@ -162,7 +187,7 @@ namespace WorldDrawTest {
                             direction = null;
                         break;
                     case Direction.Left:
-                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x -1, y + 2]) {
+                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
                             x--;
                             ghosts[0] = lFrame1;
                             ghosts[1] = lFrame2;
@@ -170,22 +195,21 @@ namespace WorldDrawTest {
                             direction = null;
                         break;
                     case Direction.Right:
-                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2])
-                        {
+                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
                             x++;
                             ghosts[0] = rFrame1;
                             ghosts[1] = rFrame2;
                         } else
                             direction = null;
-                        //} else {
-                        //    if (nextDirection != direction)
-                        //        SmoothMove();
-                        //}
-
-                        break;
-                    default:
                         break;
                 }
+            }
+        }
+
+        private void CheckToroidal() {
+            if (x == 1 && y == 21 ||
+                x == 101 && y == 21) {
+                x = direction == Direction.Right ? 1 : 101;
             }
         }
     }

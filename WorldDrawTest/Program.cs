@@ -15,6 +15,8 @@ namespace WorldDrawTest {
 
             while (true) {
                 pacMan.Plot();
+                level.RenderPoints();
+                pacMan.CheckPointsCollision();
 
                 switch (kR.Input) {
                     case "Up":
