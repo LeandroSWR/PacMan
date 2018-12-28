@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Direction.cs" />
+    <Compile Include="Ghost.cs" />
     <Compile Include="KeyReader.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelLoader.cs" />
