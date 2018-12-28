@@ -19,6 +19,8 @@ namespace WorldDrawTest {
         private Direction direction;
         private int moveSpeed;
         private int speedTimer;
+        private Random rnd;
+        private int ghostNumber;
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -36,7 +38,7 @@ namespace WorldDrawTest {
         };
 
 
-        public Ghost(int x, int y, ConsoleColor color, Direction direction) {
+        public Ghost(int number, int x, int y, ConsoleColor color, Direction direction) {
             this.x = x;
             this.y = y;
             this.color = color;
@@ -48,9 +50,12 @@ namespace WorldDrawTest {
             animationTimer = 0;
             animationSpeed = 10;
             this.direction = direction;
+            ghostNumber = number;
 
             speedTimer = 0;
-            moveSpeed = 5;
+            moveSpeed = 1;
+
+            rnd = new Random(ghostNumber ^ DateTime.Now.Millisecond);
         }
 
         public void Plot() {
@@ -82,20 +87,82 @@ namespace WorldDrawTest {
 
                 switch (direction) {
                     case Direction.Up:
-                        y--;
+                        if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+                            y--;
+                        } else {
+                            direction = Direction.Down;
+                        }
                         break;
                     case Direction.Down:
-                        y++;
+                        if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+                            y++;
+                        } else {
+                            direction = Direction.Up;
+                        }
                         break;
                     case Direction.Left:
-                        x--;
+                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
+                            x--;
+                        } else {
+                            direction = Direction.Right;
+                        }
                         break;
                     case Direction.Right:
-                        x++;
-                        break;
-                    default:
+                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+                            x++;
+                        } else {
+                            direction = Direction.Left;
+                        }
                         break;
                 }
+            }
+            UpdateDirection();
+            CheckToroidal();
+        }
+
+        private void UpdateDirection() {
+
+            int chance = rnd.Next(1, 100);
+
+            if (direction == Direction.Left || direction == Direction.Right) {
+
+                if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+                    
+                    if(chance <= 30) {
+
+                        direction = Direction.Up;
+                    }
+
+                } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+
+                    if (chance >= 70) {
+
+                        direction = Direction.Down;
+                    }
+                }
+            } else if (direction == Direction.Up || direction == Direction.Down) {
+
+                if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] && !Level.WallCollider[x - 1, y + 1]) {
+
+                    if (chance <= 30) {
+
+                        direction = Direction.Left;
+                    }
+
+                } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2] && !Level.WallCollider[x + 5, y + 1]) {
+
+                    if (chance >= 70) {
+
+                        direction = Direction.Right;
+                    }
+                }
+            }
+        }
+
+        private void CheckToroidal() {
+            if (x == 1 && y == 21 ||
+                x == 101 && y == 21) {
+                x = direction == Direction.Right ? 1 : 101;
             }
         }
     }
