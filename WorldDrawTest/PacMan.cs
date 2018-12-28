@@ -16,7 +16,7 @@ namespace WorldDrawTest {
         private readonly int animationSpeed;
         private readonly int moveSpeed;
 
-        public int Points { get; private set; }
+        public static int Points { get; private set; }
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
