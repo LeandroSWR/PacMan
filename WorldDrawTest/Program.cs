@@ -26,6 +26,8 @@ namespace WorldDrawTest {
                 level.RenderPoints();
                 pacMan.CheckPointsCollision();
 
+                level.RenderScore();
+
                 switch (kR.Input) {
                     case "Up":
                         if (pacMan.direction == null || pacMan.direction == Direction.Down)
