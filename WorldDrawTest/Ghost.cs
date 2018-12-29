@@ -48,12 +48,12 @@ namespace WorldDrawTest {
             };
             animation = 0;
             animationTimer = 0;
-            animationSpeed = 10;
+            animationSpeed = 8;
             this.direction = direction;
             ghostNumber = number;
 
             speedTimer = 0;
-            moveSpeed = 1;
+            moveSpeed = 2;
 
             rnd = new Random(ghostNumber ^ DateTime.Now.Millisecond);
         }
@@ -123,6 +123,8 @@ namespace WorldDrawTest {
         private void UpdateDirection() {
 
             int chance = rnd.Next(1, 100);
+
+
 
             if (direction == Direction.Left || direction == Direction.Right) {
 

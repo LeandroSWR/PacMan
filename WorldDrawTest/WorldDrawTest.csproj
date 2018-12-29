@@ -43,10 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Direction.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Ghost.cs" />
+    <Compile Include="GhostState.cs" />
     <Compile Include="KeyReader.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelLoader.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuSymbols.cs" />
     <Compile Include="PacMan.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

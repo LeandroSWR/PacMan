@@ -80,11 +80,11 @@ namespace WorldDrawTest {
             };
             animation = 0;
             animationTimer = 0;
-            animationSpeed = 3;
+            animationSpeed = 4;
             this.direction = direction;
 
             speedTimer = 0;
-            moveSpeed = 1;
+            moveSpeed = 2;
         }
 
         public void Plot() {
