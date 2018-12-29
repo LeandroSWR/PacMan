@@ -114,8 +114,8 @@ namespace WorldDrawTest {
                                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.SetCursorPosition(u, i);
                                 Console.Write(PointsCollider[u, i]);
-                                Console.ForegroundColor = ConsoleColor.White;
                             } else {
+                                Console.ForegroundColor = ConsoleColor.White;
                                 Console.SetCursorPosition(u, i);
                                 Console.Write(PointsCollider[u, i]);
                             }
