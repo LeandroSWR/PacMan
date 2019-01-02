@@ -12,6 +12,7 @@
 *.userprefs
 
 # Build results
+WorldDrawTest/bin/Debug/WorldDrawTest.exe
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
