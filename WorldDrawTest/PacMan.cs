@@ -5,8 +5,8 @@ namespace WorldDrawTest {
     class PacMan {
         // Ascii ▄ ▀ █
 
-        private int x;
-        private int y;
+        public int X { get; private set; }
+        public int Y { get; private set; }
         private Dictionary<int, string[]> ghosts;
         private int animation;
         private int animationTimer;
@@ -71,9 +71,9 @@ namespace WorldDrawTest {
 
 
 
-        public PacMan(int x, int y, Direction direction) {
-            this.x = x;
-            this.y = y;
+        public PacMan(int X, int Y, Direction direction) {
+            this.X = X;
+            this.Y = Y;
             ghosts = new Dictionary<int, string[]> {
                 [0] = rFrame1,
                 [1] = rFrame2
@@ -96,14 +96,14 @@ namespace WorldDrawTest {
             
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(x, y + i);
+                Console.SetCursorPosition(X, Y + i);
                 Console.WriteLine(ghosts[animation][i]);
             }
         }
 
         public void UnPlot() {
             for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(x, y + i);
+                Console.SetCursorPosition(X, Y + i);
                 Console.WriteLine("     ");
             }
         }
@@ -114,25 +114,25 @@ namespace WorldDrawTest {
         private void FixDirection() {
             switch (nextDirection) {
                 case Direction.Up:
-                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+                    if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
                         direction = nextDirection;
                         nextDirection = null;
                     }
                     break;
                 case Direction.Down:
-                    if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+                    if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
                         direction = nextDirection;
                         nextDirection = null;
                     }
                     break;
                 case Direction.Left:
-                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
+                    if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
                         direction = nextDirection;
                         nextDirection = null;
                     }
                     break;
                 case Direction.Right:
-                    if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+                    if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
                         direction = nextDirection;
                         nextDirection = null;
                     }
@@ -145,8 +145,8 @@ namespace WorldDrawTest {
             for (int i = 0; i < Level.y; i++) {
                 for (int u = 0; u < Level.x; u++) {
                     if (Level.PointsCollider[u, i] != default(char)) {
-                        if (((x + 1 == u || x + 3 == u) && y + 1 == i) ||
-                            ((y == i || y + 2 == i) && x + 2 == u)) {
+                        if (((X + 1 == u || X + 3 == u) && Y + 1 == i) ||
+                            ((Y == i || Y + 2 == i) && X + 2 == u)) {
                             if (Level.PointsCollider[u, i] == '█') {
                                 // Change AI State
                             }
@@ -171,32 +171,32 @@ namespace WorldDrawTest {
 
                 switch (direction) {
                     case Direction.Up:
-                        if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-                            y--;
+                        if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
+                            Y--;
                             ghosts[0] = uFrame1;
                             ghosts[1] = uFrame2;
                         } else
                             direction = null;
                         break;
                     case Direction.Down:
-                        if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-                            y++;
+                        if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
+                            Y++;
                             ghosts[0] = dFrame1;
                             ghosts[1] = dFrame2;
                         } else
                             direction = null;
                         break;
                     case Direction.Left:
-                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
-                            x--;
+                        if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
+                            X--;
                             ghosts[0] = lFrame1;
                             ghosts[1] = lFrame2;
                         } else
                             direction = null;
                         break;
                     case Direction.Right:
-                        if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-                            x++;
+                        if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
+                            X++;
                             ghosts[0] = rFrame1;
                             ghosts[1] = rFrame2;
                         } else
@@ -207,9 +207,9 @@ namespace WorldDrawTest {
         }
 
         private void CheckToroidal() {
-            if (x == 1 && y == 21 ||
-                x == 101 && y == 21) {
-                x = direction == Direction.Right ? 1 : 101;
+            if (X == 1 && Y == 21 ||
+                X == 101 && Y == 21) {
+                X = direction == Direction.Right ? 1 : 101;
             }
         }
     }
