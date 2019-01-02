@@ -6,12 +6,13 @@
 *.user
 *.userosscache
 *.sln.docstates
-.exe
+*.exe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Build results
+WorldDrawTest/bin/Debug/WorldDrawTest.exe
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
