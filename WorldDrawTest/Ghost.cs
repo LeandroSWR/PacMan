@@ -26,8 +26,8 @@ namespace WorldDrawTest {
         private int timer;
         private int chance;
         private PacMan pacman;
-        private int previousPacX;
-        private int previousPacY;
+        private int lastPacX;
+        private int lastPacY;
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -274,6 +274,8 @@ namespace WorldDrawTest {
                     }
                 }
 
+                lastPacX = pacman.X;
+                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
             }
 
@@ -291,6 +293,8 @@ namespace WorldDrawTest {
                     }
                 }
 
+                lastPacX = pacman.X;
+                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
             }
 
@@ -308,6 +312,8 @@ namespace WorldDrawTest {
                     }
                 }
 
+                lastPacX = pacman.X;
+                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
             }
 
@@ -325,42 +331,35 @@ namespace WorldDrawTest {
                     }
                 }
 
+                lastPacX = pacman.X;
+                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
             }
         }
 
         private void Follow() {
 
-            if (x == pacman.X && y > pacman.Y) {
+            if (x == lastPacX && y > lastPacY) {
 
                 direction = Direction.Up;
-                previousPacX = pacman.X;
-                previousPacY = pacman.Y;
 
-            } else if (x == pacman.X && y < pacman.Y) {
+            } else if (x == lastPacX && y < lastPacY) {
 
                 direction = Direction.Down;
-                previousPacX = pacman.X;
-                previousPacY = pacman.Y;
 
-            } else if (x > pacman.X && y == pacman.Y) {
+            } else if (x > lastPacX && y == lastPacY) {
 
                 direction = Direction.Left;
-                previousPacX = pacman.X;
-                previousPacY = pacman.Y;
 
-            } else if (x < pacman.X && y == pacman.Y) {
+            } else if (x < lastPacX && y == lastPacY) {
 
                 direction = Direction.Right;
-                previousPacX = pacman.X;
-                previousPacY = pacman.Y;
-
             }
 
-            if (x == previousPacX && y == previousPacY) {
+            if (x == lastPacX && y == lastPacY) {
 
                 state = GhostState.SearchPacMan;
-
+                Console.Beep();
             }
         }
     }
