@@ -26,6 +26,8 @@ namespace WorldDrawTest {
         private int timer;
         private int chance;
         private PacMan pacman;
+        private int previousPacX;
+        private int previousPacY;
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -196,6 +198,9 @@ namespace WorldDrawTest {
 
                 case GhostState.FollowPacMan:
 
+                    //moveSpeed = 1;
+                    Follow();
+                    //UpdateDirection();
                     //increase speed and memorize pacman's last location
                     break;
 
@@ -321,6 +326,41 @@ namespace WorldDrawTest {
                 }
 
                 state = GhostState.FollowPacMan;
+            }
+        }
+
+        private void Follow() {
+
+            if (x == pacman.X && y > pacman.Y) {
+
+                direction = Direction.Up;
+                previousPacX = pacman.X;
+                previousPacY = pacman.Y;
+
+            } else if (x == pacman.X && y < pacman.Y) {
+
+                direction = Direction.Down;
+                previousPacX = pacman.X;
+                previousPacY = pacman.Y;
+
+            } else if (x > pacman.X && y == pacman.Y) {
+
+                direction = Direction.Left;
+                previousPacX = pacman.X;
+                previousPacY = pacman.Y;
+
+            } else if (x < pacman.X && y == pacman.Y) {
+
+                direction = Direction.Right;
+                previousPacX = pacman.X;
+                previousPacY = pacman.Y;
+
+            }
+
+            if (x == previousPacX && y == previousPacY) {
+
+                state = GhostState.SearchPacMan;
+
             }
         }
     }
