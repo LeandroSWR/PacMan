@@ -32,22 +32,22 @@ namespace WorldDrawTest {
 
                 switch (kR.Input) {
                     case "Up":
-                        if (pacMan.direction == null || pacMan.direction == Direction.Down)
+                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Down)
                             pacMan.direction = Direction.Up;
                         pacMan.nextDirection = Direction.Up;
                         break;
                     case "Right":
-                        if (pacMan.direction == null || pacMan.direction == Direction.Left)
+                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Left)
                             pacMan.direction = Direction.Right;
                         pacMan.nextDirection = Direction.Right;
                         break;
                     case "Left":
-                        if (pacMan.direction == null || pacMan.direction == Direction.Right)
+                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Right)
                             pacMan.direction = Direction.Left;
                         pacMan.nextDirection = Direction.Left;
                         break;
                     case "Down":
-                        if (pacMan.direction == null || pacMan.direction == Direction.Up)
+                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Up)
                             pacMan.direction = Direction.Down;
                         pacMan.nextDirection = Direction.Down;
                         break;

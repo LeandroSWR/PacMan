@@ -11,8 +11,8 @@ namespace WorldDrawTest {
         private int animation;
         private int animationTimer;
         private int speedTimer;
-        public Direction? direction;
-        public Direction? nextDirection;
+        public Direction direction;
+        public Direction nextDirection;
         private readonly int animationSpeed;
         private readonly int moveSpeed;
 
@@ -116,25 +116,25 @@ namespace WorldDrawTest {
                 case Direction.Up:
                     if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
                         direction = nextDirection;
-                        nextDirection = null;
+                        nextDirection = Direction.None;
                     }
                     break;
                 case Direction.Down:
                     if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
                         direction = nextDirection;
-                        nextDirection = null;
+                        nextDirection = Direction.None;
                     }
                     break;
                 case Direction.Left:
                     if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
                         direction = nextDirection;
-                        nextDirection = null;
+                        nextDirection = Direction.None;
                     }
                     break;
                 case Direction.Right:
                     if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
                         direction = nextDirection;
-                        nextDirection = null;
+                        nextDirection = Direction.None;
                     }
                     break;
             }
@@ -176,7 +176,7 @@ namespace WorldDrawTest {
                             ghosts[0] = uFrame1;
                             ghosts[1] = uFrame2;
                         } else
-                            direction = null;
+                            direction = Direction.None;
                         break;
                     case Direction.Down:
                         if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
@@ -184,7 +184,7 @@ namespace WorldDrawTest {
                             ghosts[0] = dFrame1;
                             ghosts[1] = dFrame2;
                         } else
-                            direction = null;
+                            direction = Direction.None;
                         break;
                     case Direction.Left:
                         if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
@@ -192,7 +192,7 @@ namespace WorldDrawTest {
                             ghosts[0] = lFrame1;
                             ghosts[1] = lFrame2;
                         } else
-                            direction = null;
+                            direction = Direction.None;
                         break;
                     case Direction.Right:
                         if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
@@ -200,7 +200,7 @@ namespace WorldDrawTest {
                             ghosts[0] = rFrame1;
                             ghosts[1] = rFrame2;
                         } else
-                            direction = null;
+                            direction = Direction.None;
                         break;
                 }
             }

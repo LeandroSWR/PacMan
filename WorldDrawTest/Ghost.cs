@@ -28,6 +28,7 @@ namespace WorldDrawTest {
         private PacMan pacman;
         private int lastPacX;
         private int lastPacY;
+        private Direction lastPacDir;
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -147,14 +148,14 @@ namespace WorldDrawTest {
 
                 if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
                     
-                    if(chance <= 35) {
+                    if(chance <= 40) {
 
                         direction = Direction.Up;
                     }
 
                 } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
 
-                    if (chance >= 65) {
+                    if (chance >= 60) {
 
                         direction = Direction.Down;
                     }
@@ -163,14 +164,14 @@ namespace WorldDrawTest {
 
                 if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] && !Level.WallCollider[x - 1, y + 1]) {
 
-                    if (chance <= 35) {
+                    if (chance <= 40) {
 
                         direction = Direction.Left;
                     }
 
                 } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2] && !Level.WallCollider[x + 5, y + 1]) {
 
-                    if (chance >= 65) {
+                    if (chance >= 60) {
 
                         direction = Direction.Right;
                     }
@@ -191,17 +192,12 @@ namespace WorldDrawTest {
                 case GhostState.SearchPacMan:
 
                     UpdateDirection();
-
                     CheckPacMan();
-
                     break;
 
                 case GhostState.FollowPacMan:
 
-                    //moveSpeed = 1;
                     Follow();
-                    //UpdateDirection();
-                    //increase speed and memorize pacman's last location
                     break;
 
                 case GhostState.RunFromPacman:
@@ -258,15 +254,14 @@ namespace WorldDrawTest {
             }
         }
 
-        private void CheckPacMan() {
-
+        private bool CheckPacMan() {
             if (x == pacman.X && y > pacman.Y) {
 
                 for (int i = pacman.Y; i <= y; i++) {
 
                     if (Level.WallCollider[x, i]) {
 
-                        return;
+                        return false;
 
                     } else if (!Level.WallCollider[x, i]) {
 
@@ -274,9 +269,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                lastPacX = pacman.X;
-                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
+                return true;
             }
 
             if (x == pacman.X && y < pacman.Y) {
@@ -285,7 +279,7 @@ namespace WorldDrawTest {
 
                     if (Level.WallCollider[x, i]) {
 
-                        return;
+                        return false;
 
                     } else if (!Level.WallCollider[x, i]) {
 
@@ -293,9 +287,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                lastPacX = pacman.X;
-                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
+                return true;
             }
 
             if (x > pacman.X && y == pacman.Y) {
@@ -304,7 +297,7 @@ namespace WorldDrawTest {
 
                     if (Level.WallCollider[i, y]) {
 
-                        return;
+                        return false;
 
                     } else if (!Level.WallCollider[i, y]) {
 
@@ -312,9 +305,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                lastPacX = pacman.X;
-                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
+                return true;
             }
 
             if (x < pacman.X && y == pacman.Y) {
@@ -323,7 +315,7 @@ namespace WorldDrawTest {
 
                     if (Level.WallCollider[i, y]) {
 
-                        return;
+                        return false;
 
                     } else if (!Level.WallCollider[i, y]) {
 
@@ -331,35 +323,45 @@ namespace WorldDrawTest {
                     }
                 }
 
-                lastPacX = pacman.X;
-                lastPacY = pacman.Y;
                 state = GhostState.FollowPacMan;
+                return true;
             }
+            return false;
         }
 
         private void Follow() {
 
-            if (x == lastPacX && y > lastPacY) {
+            if (!CheckPacMan()) {
+                if (x == lastPacX && y == lastPacY) {
+                    direction = lastPacDir;
+                    state = GhostState.SearchPacMan;
+                }
+            } else {
+                lastPacX = pacman.X;
+                lastPacY = pacman.Y;
 
-                direction = Direction.Up;
+                if (y > pacman.Y) {
+                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1])
+                        direction = Direction.Up;
 
-            } else if (x == lastPacX && y < lastPacY) {
+                } else if (y < pacman.Y) {
+                    if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3])
+                        direction = Direction.Down;
 
-                direction = Direction.Down;
+                } else if (x > pacman.X) {
+                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2])
+                        direction = Direction.Left;
 
-            } else if (x > lastPacX && y == lastPacY) {
+                } else if (x < pacman.X) {
+                    if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2])
+                        direction = Direction.Right;
+                }
 
-                direction = Direction.Left;
-
-            } else if (x < lastPacX && y == lastPacY) {
-
-                direction = Direction.Right;
-            }
-
-            if (x == lastPacX && y == lastPacY) {
-
-                state = GhostState.SearchPacMan;
-                Console.Beep();
+                if (pacman.nextDirection != Direction.None) {
+                    lastPacDir = pacman.nextDirection;
+                } else {
+                    lastPacDir = pacman.direction;
+                }
             }
         }
     }
