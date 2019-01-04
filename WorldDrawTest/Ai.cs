@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WorldDrawTest {
-    class Ai {
+    class AI {
         
+        public AI() { }
     }
 }

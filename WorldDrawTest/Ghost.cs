@@ -193,16 +193,18 @@ namespace WorldDrawTest {
 
                     UpdateDirection();
                     CheckPacMan();
+                    if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.FollowPacMan:
 
                     Follow();
+                    if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.RunFromPacman:
 
-                    //run from Pacman
+                    Run();
                     break;
 
                 case GhostState.ReturnToSpawn:
@@ -269,7 +271,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                state = GhostState.FollowPacMan;
+                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+
                 return true;
             }
 
@@ -287,7 +290,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                state = GhostState.FollowPacMan;
+                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+
                 return true;
             }
 
@@ -305,7 +309,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                state = GhostState.FollowPacMan;
+                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+
                 return true;
             }
 
@@ -323,7 +328,8 @@ namespace WorldDrawTest {
                     }
                 }
 
-                state = GhostState.FollowPacMan;
+                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+
                 return true;
             }
             return false;
@@ -362,6 +368,96 @@ namespace WorldDrawTest {
                 } else {
                     lastPacDir = pacman.direction;
                 }
+            }
+        }
+
+        private void Run() {
+
+            if (pacman.CanEatGhosts) {
+
+                if (!CheckPacMan()) {
+                    
+                    UpdateDirection();
+
+                } else {
+
+                    if (y > pacman.Y) {
+
+                        direction = Direction.Down;
+
+                    } else if (y < pacman.Y) {
+
+                        direction = Direction.Up;
+
+                    } else if (x > pacman.X) {
+
+                        direction = Direction.Right;
+
+                    } else if (x < pacman.X) {
+
+                        direction = Direction.Left;
+                    }
+
+                    if (direction == Direction.Up || direction == Direction.Down) {
+
+                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] &&
+                            !Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+
+                            if (chance <= 50) {
+
+                                direction = Direction.Left;
+
+                            } else {
+
+                                direction = Direction.Right;
+                            }
+
+                            return;
+
+                        } else if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
+
+                            direction = Direction.Left;
+                            return;
+
+                        } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+
+                            direction = Direction.Right;
+                            return;
+                        }
+                    }
+
+                    if (direction == Direction.Left || direction == Direction.Right) {
+
+                        if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1] &&
+                            !Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+
+                            if (chance <= 50) {
+
+                                direction = Direction.Up;
+
+                            } else {
+
+                                direction = Direction.Down;
+                            }
+
+                        } else if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+
+                            direction = Direction.Up;
+
+                        } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+
+                            direction = Direction.Down;
+                        }
+                    }
+                }
+
+                color = ConsoleColor.DarkGray;
+                moveSpeed = 3;
+
+            } else {
+
+                moveSpeed = 2;
+                state = GhostState.SearchPacMan;
             }
         }
     }

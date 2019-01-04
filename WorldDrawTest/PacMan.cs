@@ -15,6 +15,7 @@ namespace WorldDrawTest {
         public Direction nextDirection;
         private readonly int animationSpeed;
         private readonly int moveSpeed;
+        public bool CanEatGhosts { get; private set; }
 
         public static int Points { get; private set; }
 
@@ -85,6 +86,8 @@ namespace WorldDrawTest {
 
             speedTimer = 0;
             moveSpeed = 2;
+
+            CanEatGhosts = false;
         }
 
         public void Plot() {
@@ -148,7 +151,7 @@ namespace WorldDrawTest {
                         if (((X + 1 == u || X + 3 == u) && Y + 1 == i) ||
                             ((Y == i || Y + 2 == i) && X + 2 == u)) {
                             if (Level.PointsCollider[u, i] == '█') {
-                                // Change AI State
+                                CanEatGhosts = true;
                             }
                             Points += 10;
                             Level.PointsCollider[u, i] = default(char);
