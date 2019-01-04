@@ -15,6 +15,8 @@ namespace WorldDrawTest {
         public Direction nextDirection;
         private readonly int animationSpeed;
         private readonly int moveSpeed;
+        private int setTime = DateTime.Now.Second;
+        private int timer;
         public bool CanEatGhosts { get; private set; }
 
         public static int Points { get; private set; }
@@ -87,6 +89,8 @@ namespace WorldDrawTest {
             speedTimer = 0;
             moveSpeed = 2;
 
+            timer = setTime;
+
             CanEatGhosts = false;
         }
 
@@ -151,6 +155,7 @@ namespace WorldDrawTest {
                         if (((X + 1 == u || X + 3 == u) && Y + 1 == i) ||
                             ((Y == i || Y + 2 == i) && X + 2 == u)) {
                             if (Level.PointsCollider[u, i] == '█') {
+
                                 CanEatGhosts = true;
                             }
                             Points += 10;
@@ -168,6 +173,7 @@ namespace WorldDrawTest {
             speedTimer++;
             FixDirection();
             CheckToroidal();
+            UpdateGhostsState();
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
@@ -213,6 +219,23 @@ namespace WorldDrawTest {
             if (X == 1 && Y == 21 ||
                 X == 101 && Y == 21) {
                 X = direction == Direction.Right ? 1 : 101;
+            }
+        }
+
+        private void UpdateGhostsState() {
+
+            if (CanEatGhosts) {
+
+                timer++;
+
+                if (timer.Equals(setTime + 120)) {
+
+                    CanEatGhosts = false;
+                }
+
+            } else {
+
+                timer = 0;
             }
         }
     }

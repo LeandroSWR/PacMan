@@ -456,7 +456,25 @@ namespace WorldDrawTest {
 
             } else {
 
-                moveSpeed = 2;
+                if (ghostNumber == 1) {
+
+                    color = ConsoleColor.Red;
+
+                } else if (ghostNumber == 2) {
+
+                    color = ConsoleColor.Green;
+
+                } else if (ghostNumber == 3) {
+
+                    color = ConsoleColor.Cyan;
+
+                } else if (ghostNumber == 4) {
+
+                    color = ConsoleColor.Magenta;
+
+                }
+
+                    moveSpeed = 2;
                 state = GhostState.SearchPacMan;
             }
         }
