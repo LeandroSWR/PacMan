@@ -58,7 +58,7 @@ namespace WorldDrawTest {
             }
         }
 
-        public void RenderUi(int points, int lives) {
+        public void RenderUi(int points, int lives, int level) {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             string score = Convert.ToString(points);
             while (score.Length != 7) {
@@ -116,7 +116,7 @@ namespace WorldDrawTest {
             Console.SetCursorPosition(96, 26);
             for (int i = 0; i < 3; i++) {
                 Console.SetCursorPosition(98, 26 + i);
-                CheckNumber(1, i);
+                CheckNumber(level, i);
             }
         }
 

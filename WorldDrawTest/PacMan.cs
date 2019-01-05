@@ -17,10 +17,13 @@ namespace WorldDrawTest {
         private readonly int moveSpeed;
         private int setTime = DateTime.Now.Second;
         private int timer;
+        private int totalPoints;
 
         public bool IsDead { get; set; }
 
         public int Health { get; private set; }
+
+        public int NLevel { get; private set; }
 
         public event Action EatSpecialPoints;
 
@@ -100,7 +103,9 @@ namespace WorldDrawTest {
 
             Health = 3;
 
-            //CanEatGhosts = false;
+            totalPoints = 207;
+
+            NLevel = 1;
         }
 
         public void Plot() {
@@ -156,8 +161,14 @@ namespace WorldDrawTest {
             }
         }
 
+        public void Update() {
 
-        public void CheckPointsCollision() {
+            CheckPointsCollision();
+            Move();
+            WinCondition();
+        }
+
+        private void CheckPointsCollision() {
             for (int i = 0; i < Level.y; i++) {
                 for (int u = 0; u < Level.x; u++) {
                     if (Level.PointsCollider[u, i] != default(char)) {
@@ -168,6 +179,7 @@ namespace WorldDrawTest {
                                 EatSpecialPoints();
                             }
                             Points += 10;
+                            totalPoints--;
                             Level.PointsCollider[u, i] = default(char);
                         }
                     }
@@ -178,11 +190,10 @@ namespace WorldDrawTest {
         /// <summary>
         /// Moves the player each frame
         /// </summary>
-        public void Move() {
+        private void Move() {
             speedTimer++;
             FixDirection();
             CheckToroidal();
-            //UpdateGhostsState();
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
@@ -241,6 +252,16 @@ namespace WorldDrawTest {
                 Y = 25;
                 direction = Direction.Right;
                 Died();
+            }
+        }
+
+        private void WinCondition() {
+
+            if (totalPoints == 0) {
+
+                NLevel++;
+                Points += 10000;
+                totalPoints = 207;
             }
         }
     }

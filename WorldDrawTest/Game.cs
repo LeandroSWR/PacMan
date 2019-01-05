@@ -8,13 +8,13 @@ using System.Threading;
 namespace WorldDrawTest {
     class Game {
 
-        Level level;
-        PacMan pacMan;
-        Ghost ghost1;
-        Ghost ghost2;
-        Ghost ghost3;
-        Ghost ghost4;
-        KeyReader kR;
+        private Level level;
+        private PacMan pacMan;
+        private Ghost ghost1;
+        private Ghost ghost2;
+        private Ghost ghost3;
+        private Ghost ghost4;
+        private KeyReader kR;
 
         public Game(KeyReader kr) {
 
@@ -29,7 +29,7 @@ namespace WorldDrawTest {
             GameLoop();
         }
 
-        public void GameLoop() {
+        private void GameLoop() {
             while (pacMan.Health != 0) {
 
                 pacMan.Plot();
@@ -38,9 +38,8 @@ namespace WorldDrawTest {
                 ghost2.Plot();
                 ghost3.Plot();
                 ghost4.Plot();
-                pacMan.CheckPointsCollision();
 
-                level.RenderUi(pacMan.Points, pacMan.Health);
+                level.RenderUi(pacMan.Points, pacMan.Health, pacMan.NLevel);
 
                 switch (kR.Input) {
                     case "Up":
@@ -73,12 +72,26 @@ namespace WorldDrawTest {
                 ghost3.UnPlot();
                 ghost4.UnPlot();
 
-                pacMan.Move();
+                pacMan.Update();
                 ghost1.Update();
                 ghost2.Update();
                 ghost3.Update();
                 ghost4.Update();
             }
+
+            ResetLevel();
+        }
+
+        private void ResetLevel() {
+
+            level = new Level();
+            pacMan = new PacMan(51, 25, Direction.Right);
+            ghost1 = new Ghost(1, 39, 21, ConsoleColor.Red, Direction.Right, pacMan);
+            ghost2 = new Ghost(2, 46, 21, ConsoleColor.Green, Direction.Left, pacMan);
+            ghost3 = new Ghost(3, 56, 21, ConsoleColor.Cyan, Direction.Right, pacMan);
+            ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.Left, pacMan);
+
+            GameLoop();
         }
     }
 }
