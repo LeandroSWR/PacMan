@@ -23,6 +23,7 @@ namespace WorldDrawTest {
         private int ghostNumber;
         private GhostState state;
         private int timer;
+        private int timer2;
         private int chance;
         private PacMan pacman;
         private int lastPacX;
@@ -62,6 +63,7 @@ namespace WorldDrawTest {
             speedTimer = 0;
             moveSpeed = 2;
             timer = 0;
+            timer2 = 0;
 
             ghosts = new Dictionary<int, string[]> {
                 [0] = gFrame1,
@@ -98,7 +100,7 @@ namespace WorldDrawTest {
         }
 
         public void Update() {
-
+            
             chance = rnd.Next(1, 100);
             OnEatSpecialPoints();
             CheckCollision();
@@ -200,13 +202,13 @@ namespace WorldDrawTest {
                     Move();
                     UpdateDirection();
                     CheckPacMan();
-                    if (isVulnerable || CheckPacMan()) state = GhostState.RunFromPacman;
+                    if (isVulnerable) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.FollowPacMan:
                     Move();
                     Follow();
-                    if (isVulnerable || CheckPacMan()) state = GhostState.RunFromPacman;
+                    if (isVulnerable) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.RunFromPacman:
@@ -217,12 +219,14 @@ namespace WorldDrawTest {
                 case GhostState.ReturnToSpawn:
 
                     ReturnToSpawn();
-                    Run();
                     break;
             }
         }
 
-        private void OnEatSpecialPoints() => pacman.EatSpecialPoints += Run;
+        private void OnEatSpecialPoints() {
+
+            pacman.EatSpecialPoints += Run;
+        }
 
         private void ReturnToSpawn() {
             if (IsDead) {
@@ -249,7 +253,7 @@ namespace WorldDrawTest {
 
             } else if (!IsDead) {
 
-                //timer++;
+                timer++;
             }
         }
 
@@ -269,7 +273,7 @@ namespace WorldDrawTest {
                 y--;
             } else {
                 state = GhostState.SearchPacMan;
-                timer = ghostNumber > 3 ? 0 : timer;
+                timer = ghostNumber > 2 ? 0 : timer;
             }
         }
 
@@ -288,7 +292,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                if (!isVulnerable) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -307,7 +311,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                if (!isVulnerable) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -326,7 +330,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                if (!isVulnerable) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -345,7 +349,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                if (!isVulnerable) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -390,10 +394,11 @@ namespace WorldDrawTest {
 
         private void Run() {
 
-            timer++;
+            if (!isVulnerable) isVulnerable = true;
+            timer2++;
 
             if (!CheckPacMan()) {
-
+                
                 UpdateDirection();
 
             } else {
@@ -414,73 +419,25 @@ namespace WorldDrawTest {
 
                     direction = Direction.Left;
                 }
-
-                if (direction == Direction.Up || direction == Direction.Down) {
-
-                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] &&
-                        !Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-
-                        if (chance <= 50) {
-
-                            direction = Direction.Left;
-
-                        } else {
-
-                            direction = Direction.Right;
-                        }
-
-                        return;
-
-                    } else if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
-
-                        direction = Direction.Left;
-                        return;
-
-                    } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-
-                        direction = Direction.Right;
-                        return;
-                    }
-                }
-
-                if (direction == Direction.Left || direction == Direction.Right) {
-
-                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1] &&
-                        !Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-
-                        if (chance <= 50) {
-
-                            direction = Direction.Up;
-
-                        } else {
-
-                            direction = Direction.Down;
-                        }
-
-                    } else if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-
-                        direction = Direction.Up;
-
-                    } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-
-                        direction = Direction.Down;
-                    }
-                }
             }
-
-            isVulnerable = true;
+            
             color = ConsoleColor.DarkGray;
             moveSpeed = 3;
 
-            if (timer > 120) {
+            if (timer2 < 160) {
+                
+                return;
 
-                timer = 0;
+            } else {
+
+                timer2 = 0;
+                //Console.Beep();
                 BackToNormal();
             }
         }
 
         private void BackToNormal() {
-
+            
             if (ghostNumber == 1) {
 
                 color = ConsoleColor.Red;
