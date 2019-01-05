@@ -19,7 +19,7 @@ namespace WorldDrawTest {
         private int timer;
         public bool CanEatGhosts { get; private set; }
 
-        public static int Points { get; private set; }
+        public static int Points { get; set; }
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
