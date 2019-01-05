@@ -23,7 +23,6 @@ namespace WorldDrawTest {
         private int ghostNumber;
         private GhostState state;
         private int timer;
-        private int timer2;
         private int chance;
         private PacMan pacman;
         private int lastPacX;
@@ -63,7 +62,6 @@ namespace WorldDrawTest {
             speedTimer = 0;
             moveSpeed = 2;
             timer = 0;
-            timer2 = 0;
 
             ghosts = new Dictionary<int, string[]> {
                 [0] = gFrame1,
@@ -76,6 +74,8 @@ namespace WorldDrawTest {
 
             isVulnerable = false;
             IsDead = false;
+
+            pacman.EatSpecialPoints += Run;
         }
 
         public void Plot() {
@@ -102,7 +102,6 @@ namespace WorldDrawTest {
         public void Update() {
             
             chance = rnd.Next(1, 100);
-            OnEatSpecialPoints();
             CheckCollision();
             UpdateState();
         }
@@ -110,7 +109,7 @@ namespace WorldDrawTest {
         public void Move() {
             speedTimer++;
 
-            if (speedTimer == moveSpeed) {
+            if (speedTimer >= moveSpeed) {
                 speedTimer = 0;
 
                 switch (direction) {
@@ -223,13 +222,9 @@ namespace WorldDrawTest {
             }
         }
 
-        private void OnEatSpecialPoints() {
-
-            pacman.EatSpecialPoints += Run;
-        }
-
         private void ReturnToSpawn() {
             if (IsDead) {
+                BackToNormal();
                 IsDead = false;
 
                 switch (ghostNumber) {
@@ -252,8 +247,10 @@ namespace WorldDrawTest {
                 }
 
             } else if (!IsDead) {
-
                 timer++;
+                if (timer > 50) {
+                    LeaveSpawn();
+                }
             }
         }
 
@@ -393,9 +390,13 @@ namespace WorldDrawTest {
         }
 
         private void Run() {
-
-            if (!isVulnerable) isVulnerable = true;
-            timer2++;
+            if (!isVulnerable) {
+                isVulnerable = true;
+                color = ConsoleColor.DarkGray;
+                moveSpeed = 3;
+                return;
+            }
+            timer++;
 
             if (!CheckPacMan()) {
                 
@@ -420,18 +421,13 @@ namespace WorldDrawTest {
                     direction = Direction.Left;
                 }
             }
-            
-            color = ConsoleColor.DarkGray;
-            moveSpeed = 3;
 
-            if (timer2 < 160) {
+            if (timer < 160) {
                 
                 return;
 
             } else {
-
-                timer2 = 0;
-                //Console.Beep();
+                timer = 0;
                 BackToNormal();
             }
         }
@@ -458,7 +454,8 @@ namespace WorldDrawTest {
             
             isVulnerable = false;
             moveSpeed = 2;
-            state = GhostState.SearchPacMan;
+            if (!IsDead)
+                state = GhostState.SearchPacMan;
         }
 
         private void CheckCollision() {
@@ -468,6 +465,7 @@ namespace WorldDrawTest {
 
                 if (isVulnerable) {
 
+                    timer = 0;
                     isVulnerable = false;
                     PacMan.Points += 1500;
                     IsDead = true;
