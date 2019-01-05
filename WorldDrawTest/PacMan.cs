@@ -26,7 +26,7 @@ namespace WorldDrawTest {
 
         public event Action Died;
 
-        public static int Points { get; set; }
+        public int Points { get; set; }
 
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
@@ -239,7 +239,7 @@ namespace WorldDrawTest {
                 Health--;
                 X = 51;
                 Y = 25;
-                direction = Direction.Left;
+                direction = Direction.Right;
                 Died();
             }
         }

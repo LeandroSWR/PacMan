@@ -8,16 +8,28 @@ using System.Threading;
 namespace WorldDrawTest {
     class Game {
 
-        public Game() {
+        Level level;
+        PacMan pacMan;
+        Ghost ghost1;
+        Ghost ghost2;
+        Ghost ghost3;
+        Ghost ghost4;
+        KeyReader kR;
 
-            Level level = new Level();
-            PacMan pacMan = new PacMan(51, 25, Direction.Right);
-            Ghost ghost1 = new Ghost(1, 39, 21, ConsoleColor.Red, Direction.Right, pacMan);
-            Ghost ghost2 = new Ghost(2, 46, 21, ConsoleColor.Green, Direction.Left, pacMan);
-            Ghost ghost3 = new Ghost(3, 56, 21, ConsoleColor.Cyan, Direction.Right, pacMan);
-            Ghost ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.Left, pacMan);
-            KeyReader kR = new KeyReader();
+        public Game(KeyReader kr) {
 
+            level = new Level();
+            pacMan = new PacMan(51, 25, Direction.Right);
+            ghost1 = new Ghost(1, 39, 21, ConsoleColor.Red, Direction.Right, pacMan);
+            ghost2 = new Ghost(2, 46, 21, ConsoleColor.Green, Direction.Left, pacMan);
+            ghost3 = new Ghost(3, 56, 21, ConsoleColor.Cyan, Direction.Right, pacMan);
+            ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.Left, pacMan);
+            kR = kr;
+
+            GameLoop();
+        }
+
+        public void GameLoop() {
             while (pacMan.Health != 0) {
 
                 pacMan.Plot();
@@ -28,7 +40,7 @@ namespace WorldDrawTest {
                 ghost4.Plot();
                 pacMan.CheckPointsCollision();
 
-                level.RenderScore();
+                level.RenderUi(pacMan.Points, pacMan.Health);
 
                 switch (kR.Input) {
                     case "Up":

@@ -469,7 +469,7 @@ namespace WorldDrawTest {
 
                     timer = 0;
                     isVulnerable = false;
-                    PacMan.Points += 1500;
+                    pacman.Points += 1500;
                     IsDead = true;
                     state = GhostState.ReturnToSpawn;
 

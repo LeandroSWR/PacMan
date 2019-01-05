@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 
 namespace WorldDrawTest {
@@ -19,10 +19,12 @@ namespace WorldDrawTest {
         public string[] MenuSprite { get; private set; } = new string[49];
 
         MenuSymbols ms;
+        KeyReader kR;
 
         public Menu() {
 
             ms = new MenuSymbols();
+            kR = new KeyReader();
 
             selectionY = 17;
             playSelected = true;
@@ -35,62 +37,52 @@ namespace WorldDrawTest {
         /* No necessity for the Menu to have another Thread run on the background
          * since there's nothing else happening than the 'waiting for input' */
         private void GetInput() {
+            do {
+                switch (kR.Input) {
 
-            switch(Console.ReadKey(true).Key) {
+                    case "Down":
 
-                case ConsoleKey.DownArrow:
+                        if (playSelected) {
 
-                    if (playSelected) {
+                            playSelected = false;
+                            quitSelected = true;
+                            selectionY = 25;
+                            Console.Clear();
+                            RenderMenu();
 
-                        playSelected = false;
-                        quitSelected = true;
-                        selectionY = 25;
-                        Console.Clear();
-                        RenderMenu();
+                        }
 
-                    } else {
+                        break;
 
-                        RenderMenu();
-                        
-                    }
+                    case "Up":
 
-                    break;
+                        if (quitSelected) {
 
-                case ConsoleKey.UpArrow:
+                            quitSelected = false;
+                            playSelected = true;
+                            selectionY = 17;
+                            Console.Clear();
+                            RenderMenu();
 
-                    if (quitSelected) {
+                        }
 
-                        quitSelected = false;
-                        playSelected = true;
-                        selectionY = 17;
-                        Console.Clear();
-                        RenderMenu();
+                        break;
 
-                    } else {
+                    case "Enter":
 
-                        RenderMenu();
-                    }
+                        if (playSelected) {
 
-                    break;
+                            Game game = new Game(kR);
+                            RenderMenu();
 
-                case ConsoleKey.Enter:
+                        } else {
 
-                    if (playSelected) {
+                            Environment.Exit(0);
+                        }
 
-                        Game game = new Game();
-                        
-                    } else {
-
-                        Environment.Exit(0);
-                    }
-
-                    break;
-
-                default:
-
-                    RenderMenu();
-                    break;
-            }
+                        break;
+                }
+            } while (true);
         }
 
         private void LoadMenu(string file) {

@@ -58,9 +58,9 @@ namespace WorldDrawTest {
             }
         }
 
-        public void RenderScore() {
+        public void RenderUi(int points, int lives) {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            string score = Convert.ToString(PacMan.Points);
+            string score = Convert.ToString(points);
             while (score.Length != 7) {
                 score = "0" + score;
             }
@@ -102,6 +102,56 @@ namespace WorldDrawTest {
                             break;
                     }
                 }
+            }
+
+            Console.SetCursorPosition(87, 25);
+            Console.Write("Lives");
+            Console.SetCursorPosition(96, 25);
+            Console.Write("Level");
+            Console.SetCursorPosition(87, 26);
+            for (int i = 0; i < 3; i++) {
+                Console.SetCursorPosition(89, 26 + i);
+                CheckNumber(lives, i);
+            }
+            Console.SetCursorPosition(96, 26);
+            for (int i = 0; i < 3; i++) {
+                Console.SetCursorPosition(98, 26 + i);
+                CheckNumber(1, i);
+            }
+        }
+
+        private void CheckNumber(int temp, int i) {
+            switch (temp) {
+                case 0:
+                    Console.Write(sprite.zero[i]);
+                    break;
+                case 1:
+                    Console.Write(sprite.one[i]);
+                    break;
+                case 2:
+                    Console.Write(sprite.two[i]);
+                    break;
+                case 3:
+                    Console.Write(sprite.tree[i]);
+                    break;
+                case 4:
+                    Console.Write(sprite.four[i]);
+                    break;
+                case 5:
+                    Console.Write(sprite.five[i]);
+                    break;
+                case 6:
+                    Console.Write(sprite.six[i]);
+                    break;
+                case 7:
+                    Console.Write(sprite.seven[i]);
+                    break;
+                case 8:
+                    Console.Write(sprite.eight[i]);
+                    break;
+                case 9:
+                    Console.Write(sprite.nine[i]);
+                    break;
             }
         }
 
