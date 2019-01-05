@@ -13,9 +13,9 @@ namespace WorldDrawTest {
             Level level = new Level();
             PacMan pacMan = new PacMan(51, 25, Direction.Right);
             Ghost ghost1 = new Ghost(1, 39, 21, ConsoleColor.Red, Direction.Right, pacMan);
-            Ghost ghost2 = new Ghost(2, 46, 21, ConsoleColor.Green, Direction.Right, pacMan);
-            Ghost ghost3 = new Ghost(3, 56, 21, ConsoleColor.Cyan, Direction.None, pacMan);
-            Ghost ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.None, pacMan);
+            Ghost ghost2 = new Ghost(2, 46, 21, ConsoleColor.Green, Direction.Left, pacMan);
+            Ghost ghost3 = new Ghost(3, 56, 21, ConsoleColor.Cyan, Direction.Right, pacMan);
+            Ghost ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.Left, pacMan);
             KeyReader kR = new KeyReader();
 
             while (true) {
@@ -53,7 +53,7 @@ namespace WorldDrawTest {
                         break;
                 }
 
-                Thread.Sleep(30);
+                Thread.Sleep(20);
 
                 pacMan.UnPlot();
                 ghost1.UnPlot();

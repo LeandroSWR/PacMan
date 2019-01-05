@@ -22,7 +22,6 @@ namespace WorldDrawTest {
         private Random rnd;
         private int ghostNumber;
         private GhostState state;
-        private int setTime = DateTime.Now.Second;
         private int timer;
         private int chance;
         private PacMan pacman;
@@ -53,24 +52,25 @@ namespace WorldDrawTest {
             this.x = x;
             this.y = y;
             this.color = color;
+            this.pacman = pacman;
+            this.direction = direction;
+
+            animation = 0;
+            animationTimer = 0;
+            animationSpeed = 8;
+            ghostNumber = number;
+            speedTimer = 0;
+            moveSpeed = 2;
+            timer = 0;
+
             ghosts = new Dictionary<int, string[]> {
                 [0] = gFrame1,
                 [1] = gFrame2
             };
-            animation = 0;
-            animationTimer = 0;
-            animationSpeed = 8;
-            this.direction = direction;
-            ghostNumber = number;
-            this.pacman = pacman;
-
-            speedTimer = 0;
-            moveSpeed = 2;
 
             rnd = new Random(ghostNumber ^ DateTime.Now.Millisecond);
 
             state = GhostState.LeavingSpawn;
-            timer = setTime;
 
             isVulnerable = false;
             IsDead = false;
@@ -100,15 +100,13 @@ namespace WorldDrawTest {
         public void Update() {
 
             chance = rnd.Next(1, 100);
-
-            Move();
+            CheckVulnerability();
             CheckCollision();
             UpdateState();
         }
 
         public void Move() {
             speedTimer++;
-            timer++;
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
@@ -143,6 +141,7 @@ namespace WorldDrawTest {
                         }
                         break;
                     case Direction.None:
+                        Console.Beep();
                         break;
                 }
             }
@@ -198,31 +197,63 @@ namespace WorldDrawTest {
                     break;
 
                 case GhostState.SearchPacMan:
-
+                    Move();
                     UpdateDirection();
                     CheckPacMan();
                     if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.FollowPacMan:
-
+                    Move();
                     Follow();
                     if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.RunFromPacman:
-
+                    Move();
                     Run();
                     break;
 
                 case GhostState.ReturnToSpawn:
-
-                    x = 63;
-                    y = 21;
-                    IsDead = true;
-                    state = GhostState.LeavingSpawn;
+                    
+                    ReturnToSpawn();
+                    Run();
                     break;
             }
+        }
+
+        private void CheckVulnerability() {
+            if (pacman.CanEatGhosts) {
+                isVulnerable = true;
+            }
+        }
+
+        private void ReturnToSpawn() {
+            if (IsDead) {
+                IsDead = false;
+
+                switch (ghostNumber) {
+                    case 1:
+                        x = 39;
+                        y = 21;
+                        break;
+                    case 2:
+                        x = 46;
+                        y = 21;
+                        break;
+                    case 3:
+                        x = 56;
+                        y = 21;
+                        break;
+                    case 4:
+                        x = 63;
+                        y = 21;
+                        break;
+                }
+            } else if (!IsDead) {
+                timer++;
+            }
+            
         }
 
         private void CheckToroidal() {
@@ -233,37 +264,15 @@ namespace WorldDrawTest {
         }
 
         private void LeaveSpawn() {
-
-            if (direction == Direction.Right || direction == Direction.Left) {
-
-                if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-
-                    direction = Direction.Up;
-                }
-
-            } else if (direction == Direction.None) {
-
-                if (timer.Equals(setTime + 40)) {
-
-                    direction = Direction.Left;
-                    timer = 0;
-                }
-
-            } else if (direction == Direction.Up) {
-
-                if (Level.WallCollider[x, y - 1] && Level.WallCollider[x + 4, y - 1]) {
-
-                    if (chance <= 50) {
-
-                        direction = Direction.Left;
-
-                    } else {
-
-                        direction = Direction.Right;
-                    }
-
-                    state = GhostState.SearchPacMan;
-                }
+            timer++;
+            if (ghostNumber > 2 && timer < 40) return;
+            if (x < 51 || x > 51) {
+                x = ghostNumber > 2 ? x - 1 : x + 1;
+            } else if (y > 17) {
+                y--;
+            } else {
+                state = GhostState.FollowPacMan;
+                timer = ghostNumber > 2 ? 0 : timer;
             }
         }
 
@@ -494,58 +503,21 @@ namespace WorldDrawTest {
 
         private void CheckCollision() {
 
-            if (x == pacman.X + 2 && y == pacman.Y) {
+            if (x == pacman.X + 2 && y == pacman.Y || x == pacman.X && y == pacman.Y + 2 ||
+                x == pacman.X && y + 2 == pacman.Y || x + 2 == pacman.X && y + 2 == pacman.Y + 2) {
 
                 if (isVulnerable) {
 
                     isVulnerable = false;
                     PacMan.Points += 1500;
+                    IsDead = true;
                     state = GhostState.ReturnToSpawn;
 
                 } else {
 
                     //PACMAN DIES
                 }
-
-            } else if (x == pacman.X && y == pacman.Y + 2) {
-
-                if (isVulnerable) {
-
-                    isVulnerable = false;
-                    PacMan.Points += 1500;
-                    state = GhostState.ReturnToSpawn;
-
-                } else {
-
-                    //PACMAN DIES
-                }
-
-            } else if (x == pacman.X && y + 2 == pacman.Y) {
-
-                if (isVulnerable) {
-
-                    isVulnerable = false;
-                    PacMan.Points += 1500;
-                    state = GhostState.ReturnToSpawn;
-
-                } else {
-
-                    //PACMAN DIES
-                }
-
-            } else if (x + 2 == pacman.X && y + 2 == pacman.Y + 2) {
-
-                if (isVulnerable) {
-
-                    isVulnerable = false;
-                    PacMan.Points += 1500;
-                    state = GhostState.ReturnToSpawn;
-
-                } else {
-
-                    //PACMAN DIES
-                }
-            }
+            } 
         }
     }
 }

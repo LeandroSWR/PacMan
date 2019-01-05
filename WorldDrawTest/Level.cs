@@ -41,7 +41,7 @@ namespace WorldDrawTest {
         private void GetCollider() {
             for (int i = 0; i < LevelSprite.Length; i++) {
                 for (int u = 0; u < LevelSprite[i].Length; u++) {
-                    if (LevelSprite[i][u] != ' ' && LevelSprite[i][u] != '_') {
+                    if (LevelSprite[i][u] != ' ') {
                         WallCollider[u, i] = true;
                     }
                 }
