@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace WorldDrawTest {
     class Ghost {
@@ -76,6 +77,7 @@ namespace WorldDrawTest {
             IsDead = false;
 
             pacman.EatSpecialPoints += Run;
+            pacman.Died += Reboot;
         }
 
         public void Plot() {
@@ -473,9 +475,36 @@ namespace WorldDrawTest {
 
                 } else {
 
-                    //PACMAN DIES
+                    pacman.IsDead= true;
+                    pacman.Respawn();
                 }
             }
+        }
+
+        private void Reboot() {
+            
+            switch (ghostNumber) {
+                case 1:
+                    x = 39;
+                    y = 21;
+                    break;
+                case 2:
+                    x = 46;
+                    y = 21;
+                    break;
+                case 3:
+                    x = 56;
+                    y = 21;
+                    break;
+                case 4:
+                    x = 63;
+                    y = 21;
+                    break;
+            }
+
+            state = GhostState.LeavingSpawn;
+
+            Thread.Sleep(250);
         }
     }
 }

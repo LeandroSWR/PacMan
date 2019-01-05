@@ -18,7 +18,7 @@ namespace WorldDrawTest {
             Ghost ghost4 = new Ghost(4, 63, 21, ConsoleColor.Magenta, Direction.Left, pacMan);
             KeyReader kR = new KeyReader();
 
-            while (true) {
+            while (pacMan.Health != 0) {
 
                 pacMan.Plot();
                 level.RenderPoints();

@@ -17,9 +17,14 @@ namespace WorldDrawTest {
         private readonly int moveSpeed;
         private int setTime = DateTime.Now.Second;
         private int timer;
-        //public bool CanEatGhosts { get; private set; }
+
+        public bool IsDead { get; set; }
+
+        public int Health { get; private set; }
 
         public event Action EatSpecialPoints;
+
+        public event Action Died;
 
         public static int Points { get; set; }
 
@@ -93,6 +98,8 @@ namespace WorldDrawTest {
 
             timer = setTime;
 
+            Health = 3;
+
             //CanEatGhosts = false;
         }
 
@@ -157,8 +164,7 @@ namespace WorldDrawTest {
                         if (((X + 1 == u || X + 3 == u) && Y + 1 == i) ||
                             ((Y == i || Y + 2 == i) && X + 2 == u)) {
                             if (Level.PointsCollider[u, i] == '█') {
-
-                                //CanEatGhosts = true;
+                                
                                 EatSpecialPoints();
                             }
                             Points += 10;
@@ -225,21 +231,17 @@ namespace WorldDrawTest {
             }
         }
 
-        //private void UpdateGhostsState() {
+        public void Respawn() {
 
-        //    if (CanEatGhosts) {
+            if (IsDead) {
 
-        //        timer++;
-
-        //        if (timer.Equals(setTime + 120)) {
-
-        //            CanEatGhosts = false;
-        //        }
-
-        //    } else {
-
-        //        timer = 0;
-        //    }
-        //}
+                IsDead = false;
+                Health--;
+                X = 51;
+                Y = 25;
+                direction = Direction.Left;
+                Died();
+            }
+        }
     }
 }
