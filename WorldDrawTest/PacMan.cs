@@ -17,7 +17,9 @@ namespace WorldDrawTest {
         private readonly int moveSpeed;
         private int setTime = DateTime.Now.Second;
         private int timer;
-        public bool CanEatGhosts { get; private set; }
+        //public bool CanEatGhosts { get; private set; }
+
+        public event Action EatSpecialPoints;
 
         public static int Points { get; set; }
 
@@ -91,7 +93,7 @@ namespace WorldDrawTest {
 
             timer = setTime;
 
-            CanEatGhosts = false;
+            //CanEatGhosts = false;
         }
 
         public void Plot() {
@@ -156,7 +158,8 @@ namespace WorldDrawTest {
                             ((Y == i || Y + 2 == i) && X + 2 == u)) {
                             if (Level.PointsCollider[u, i] == '█') {
 
-                                CanEatGhosts = true;
+                                //CanEatGhosts = true;
+                                EatSpecialPoints();
                             }
                             Points += 10;
                             Level.PointsCollider[u, i] = default(char);
@@ -173,7 +176,7 @@ namespace WorldDrawTest {
             speedTimer++;
             FixDirection();
             CheckToroidal();
-            UpdateGhostsState();
+            //UpdateGhostsState();
 
             if (speedTimer == moveSpeed) {
                 speedTimer = 0;
@@ -222,21 +225,21 @@ namespace WorldDrawTest {
             }
         }
 
-        private void UpdateGhostsState() {
+        //private void UpdateGhostsState() {
 
-            if (CanEatGhosts) {
+        //    if (CanEatGhosts) {
 
-                timer++;
+        //        timer++;
 
-                if (timer.Equals(setTime + 120)) {
+        //        if (timer.Equals(setTime + 120)) {
 
-                    CanEatGhosts = false;
-                }
+        //            CanEatGhosts = false;
+        //        }
 
-            } else {
+        //    } else {
 
-                timer = 0;
-            }
-        }
+        //        timer = 0;
+        //    }
+        //}
     }
 }

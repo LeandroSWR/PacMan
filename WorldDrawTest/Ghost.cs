@@ -100,7 +100,7 @@ namespace WorldDrawTest {
         public void Update() {
 
             chance = rnd.Next(1, 100);
-            CheckVulnerability();
+            OnEatSpecialPoints();
             CheckCollision();
             UpdateState();
         }
@@ -153,8 +153,8 @@ namespace WorldDrawTest {
             if (direction == Direction.Left || direction == Direction.Right) {
 
                 if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-                    
-                    if(chance <= 40) {
+
+                    if (chance <= 40) {
 
                         direction = Direction.Up;
                     }
@@ -200,13 +200,13 @@ namespace WorldDrawTest {
                     Move();
                     UpdateDirection();
                     CheckPacMan();
-                    if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
+                    if (isVulnerable || CheckPacMan()) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.FollowPacMan:
                     Move();
                     Follow();
-                    if (pacman.CanEatGhosts) state = GhostState.RunFromPacman;
+                    if (isVulnerable || CheckPacMan()) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.RunFromPacman:
@@ -215,18 +215,14 @@ namespace WorldDrawTest {
                     break;
 
                 case GhostState.ReturnToSpawn:
-                    
+
                     ReturnToSpawn();
                     Run();
                     break;
             }
         }
 
-        private void CheckVulnerability() {
-            if (pacman.CanEatGhosts) {
-                isVulnerable = true;
-            }
-        }
+        private void OnEatSpecialPoints() => pacman.EatSpecialPoints += Run;
 
         private void ReturnToSpawn() {
             if (IsDead) {
@@ -250,10 +246,11 @@ namespace WorldDrawTest {
                         y = 21;
                         break;
                 }
+
             } else if (!IsDead) {
-                timer++;
+
+                //timer++;
             }
-            
         }
 
         private void CheckToroidal() {
@@ -271,8 +268,8 @@ namespace WorldDrawTest {
             } else if (y > 17) {
                 y--;
             } else {
-                state = GhostState.FollowPacMan;
-                timer = ghostNumber > 2 ? 0 : timer;
+                state = GhostState.SearchPacMan;
+                timer = ghostNumber > 3 ? 0 : timer;
             }
         }
 
@@ -291,7 +288,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -310,7 +307,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -329,7 +326,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -348,7 +345,7 @@ namespace WorldDrawTest {
                     }
                 }
 
-                if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
+                //if (!pacman.CanEatGhosts) state = GhostState.FollowPacMan;
 
                 return true;
             }
@@ -393,112 +390,118 @@ namespace WorldDrawTest {
 
         private void Run() {
 
-            if (pacman.CanEatGhosts) {
+            timer++;
 
-                if (!CheckPacMan()) {
-                    
-                    UpdateDirection();
+            if (!CheckPacMan()) {
 
-                } else {
-
-                    if (y > pacman.Y) {
-
-                        direction = Direction.Down;
-
-                    } else if (y < pacman.Y) {
-
-                        direction = Direction.Up;
-
-                    } else if (x > pacman.X) {
-
-                        direction = Direction.Right;
-
-                    } else if (x < pacman.X) {
-
-                        direction = Direction.Left;
-                    }
-
-                    if (direction == Direction.Up || direction == Direction.Down) {
-
-                        if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] &&
-                            !Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-
-                            if (chance <= 50) {
-
-                                direction = Direction.Left;
-
-                            } else {
-
-                                direction = Direction.Right;
-                            }
-
-                            return;
-
-                        } else if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
-
-                            direction = Direction.Left;
-                            return;
-
-                        } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-
-                            direction = Direction.Right;
-                            return;
-                        }
-                    }
-
-                    if (direction == Direction.Left || direction == Direction.Right) {
-
-                        if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1] &&
-                            !Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-
-                            if (chance <= 50) {
-
-                                direction = Direction.Up;
-
-                            } else {
-
-                                direction = Direction.Down;
-                            }
-
-                        } else if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-
-                            direction = Direction.Up;
-
-                        } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-
-                            direction = Direction.Down;
-                        }
-                    }
-                }
-
-                isVulnerable = true;
-                color = ConsoleColor.DarkGray;
-                moveSpeed = 3;
+                UpdateDirection();
 
             } else {
 
-                if (ghostNumber == 1) {
+                if (y > pacman.Y) {
 
-                    color = ConsoleColor.Red;
+                    direction = Direction.Down;
 
-                } else if (ghostNumber == 2) {
+                } else if (y < pacman.Y) {
 
-                    color = ConsoleColor.Green;
+                    direction = Direction.Up;
 
-                } else if (ghostNumber == 3) {
+                } else if (x > pacman.X) {
 
-                    color = ConsoleColor.Cyan;
+                    direction = Direction.Right;
 
-                } else if (ghostNumber == 4) {
+                } else if (x < pacman.X) {
 
-                    color = ConsoleColor.Magenta;
-
+                    direction = Direction.Left;
                 }
 
-                isVulnerable = false;
-                moveSpeed = 2;
-                state = GhostState.SearchPacMan;
+                if (direction == Direction.Up || direction == Direction.Down) {
+
+                    if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] &&
+                        !Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+
+                        if (chance <= 50) {
+
+                            direction = Direction.Left;
+
+                        } else {
+
+                            direction = Direction.Right;
+                        }
+
+                        return;
+
+                    } else if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
+
+                        direction = Direction.Left;
+                        return;
+
+                    } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
+
+                        direction = Direction.Right;
+                        return;
+                    }
+                }
+
+                if (direction == Direction.Left || direction == Direction.Right) {
+
+                    if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1] &&
+                        !Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+
+                        if (chance <= 50) {
+
+                            direction = Direction.Up;
+
+                        } else {
+
+                            direction = Direction.Down;
+                        }
+
+                    } else if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
+
+                        direction = Direction.Up;
+
+                    } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
+
+                        direction = Direction.Down;
+                    }
+                }
             }
+
+            isVulnerable = true;
+            color = ConsoleColor.DarkGray;
+            moveSpeed = 3;
+
+            if (timer > 120) {
+
+                timer = 0;
+                BackToNormal();
+            }
+        }
+
+        private void BackToNormal() {
+
+            if (ghostNumber == 1) {
+
+                color = ConsoleColor.Red;
+
+            } else if (ghostNumber == 2) {
+
+                color = ConsoleColor.Green;
+
+            } else if (ghostNumber == 3) {
+
+                color = ConsoleColor.Cyan;
+
+            } else if (ghostNumber == 4) {
+
+                color = ConsoleColor.Magenta;
+
+            }
+            
+            isVulnerable = false;
+            moveSpeed = 2;
+            state = GhostState.SearchPacMan;
         }
 
         private void CheckCollision() {
@@ -517,7 +520,7 @@ namespace WorldDrawTest {
 
                     //PACMAN DIES
                 }
-            } 
+            }
         }
     }
 }
