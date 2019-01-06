@@ -138,6 +138,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Update method
+        /// </summary>
         public void Update() {
             
             chance = rnd.Next(1, 100);
@@ -145,6 +148,9 @@ namespace PacManGame {
             UpdateState();
         }
 
+        /// <summary>
+        /// Moves the player each frame
+        /// </summary>
         public void Move() {
             speedTimer++;
 
@@ -187,7 +193,10 @@ namespace PacManGame {
             }
             CheckToroidal();
         }
-
+        
+        /// <summary>
+        /// Randomizes the Ghosts direction
+        /// </summary>
         private void UpdateDirection() {
 
             if (direction == Direction.Left || direction == Direction.Right) {
@@ -225,6 +234,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Updates the Ghosts state
+        /// </summary>
         private void UpdateState() {
 
             switch (state) {
@@ -261,6 +273,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Returns the Ghost to spawn
+        /// </summary>
         private void ReturnToSpawn() {
             if (IsDead) {
                 BackToNormal();
@@ -280,13 +295,21 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Checks the location of the player for a possible toroidal movement
+        /// </summary>
         private void CheckToroidal() {
+            // Check if there's a toroidal movement
             if (x == 1 && y == 21 ||
                 x == 101 && y == 21) {
-                x = direction == Direction.Right ? 1 : 101;
+                // If so..
+                x = direction == Direction.Right ? 1 : 101; // Teleports to he oposite site
             }
         }
 
+        /// <summary>
+        /// Animation that moves the Ghost outside of the spawn
+        /// </summary>
         private void LeaveSpawn() {
             timer++;
             if (x > 51 && timer < 40) return;
@@ -300,6 +323,10 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Checks if the Ghost can see PacMan
+        /// </summary>
+        /// <returns></returns>
         private bool CheckPacMan() {
             if (x == pacman.X && y > pacman.Y) {
 
@@ -379,6 +406,9 @@ namespace PacManGame {
             return false;
         }
 
+        /// <summary>
+        /// Tries to follow PacMan
+        /// </summary>
         private void Follow() {
 
             if (!CheckPacMan()) {
@@ -415,6 +445,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Runs away from PacMan
+        /// </summary>
         private void Run() {
             if (!isVulnerable) {
                 isVulnerable = true;
@@ -451,6 +484,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Returns the Ghost to normal
+        /// </summary>
         private void BackToNormal() {
             
             if (ghostNumber == 1) {
@@ -477,13 +513,16 @@ namespace PacManGame {
                 state = GhostState.SearchPacMan;
         }
 
+        /// <summary>
+        /// Check for collisions againts PacMan
+        /// </summary>
         private void CheckCollision() {
 
             if ((x >= pacman.X && x <= pacman.X + 4 && y == pacman.Y) ||
                 (x + 4 >= pacman.X && x + 4 <= pacman.X + 4 && y == pacman.Y) ||
                 (x == pacman.X && y <= pacman.Y && y >= pacman.Y + 2) ||
                 (x == pacman.X && y + 2 >= pacman.Y && y <= pacman.Y + 2)) {
-
+                
                 if (isVulnerable) {
 
                     timer = 0;
@@ -500,6 +539,9 @@ namespace PacManGame {
             }
         }
 
+        /// <summary>
+        /// Reboots the level
+        /// </summary>
         public void Reboot() {
             
             switch (ghostNumber) {
