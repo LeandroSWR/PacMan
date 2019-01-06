@@ -1,4 +1,7 @@
 ﻿namespace PacManGame {
+    /// <summary>
+    /// Enumerator for the Direction
+    /// </summary>
     public enum Direction {
         Up = 1,
         Down = 2,

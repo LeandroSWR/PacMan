@@ -2,94 +2,93 @@
 using System.IO;
 
 namespace PacManGame {
+    /// <summary>
+    /// This Class is responsible for Displaying the menu and letting the player sellect an option
+    /// </summary>
     class Menu {
 
-        private readonly string path = @"";
-        private readonly string menu = "PacMan_Menu.txt";
+        private readonly string path = @""; // Creates a new empty string
+        private readonly string menu = "PacMan_Menu.txt"; // Creates a new string called "menu"
 
-        private int selectionY = 17;
+        private int selectionY; // Declares a new int
 
-        private bool playSelected;
-        private bool quitSelected;
+        private bool playSelected; // Declares a new bool
 
         public string[] MenuSprite { get; private set; } = new string[49];
 
-        KeyReader kR;
-        Sprite sp;
+        KeyReader kR; // Declares a new "KeyReader"
+        Sprite sp; // Declares a new "Sprite"
 
+        /// <summary>
+        /// Menu constructor
+        /// </summary>
         public Menu() {
 
-            sp = new Sprite();
-            kR = new KeyReader();
+            sp = new Sprite(); // Iniciates the "Sprite" "sp"
+            kR = new KeyReader(); // Iniciates the "KeyReader" "kR"
 
-            selectionY = 17;
-            playSelected = true;
-            quitSelected = false;
+            selectionY = 17; // Set the value of "selectionY" to 17
+            playSelected = true; // Set the value of "playSelected" to true
 
-            LoadMenu(menu);
-            RenderMenu();
+            LoadMenu(); // Calls the LoadMenu method
+            RenderMenu(); // Calls the RenderMenu method
         }
 
+        /// <summary>
+        /// Reads the user input to select on of the options from the menu
+        /// </summary>
         private void GetInput() {
-            do {
-                switch (kR.Input) {
-
-                    case "Down":
-
-                        if (playSelected) {
-
-                            playSelected = false;
-                            quitSelected = true;
-                            selectionY = 25;
-                            Console.Clear();
-                            RenderMenu();
-
+            do { // Do while cycle
+                switch (kR.Input) { // Reads the input
+                    case "Down": // If it's "Down"
+                        if (playSelected) { // Ask if "playSelected" is true
+                            // If so...
+                            playSelected = false; // Sets "playSelected" to false
+                            selectionY = 25; // Set the value of "selectionY" to 25
+                            Console.Clear(); // Clears the console
+                            RenderMenu(); // Calls the RenderMenu method
                         }
-
                         break;
-
-                    case "Up":
-
-                        if (quitSelected) {
-
-                            quitSelected = false;
-                            playSelected = true;
-                            selectionY = 17;
-                            Console.Clear();
-                            RenderMenu();
-
+                    case "Up": // If it's "Up"
+                        if (!playSelected) { // Ask if "playSelected" is false
+                            // If so...
+                            playSelected = true; // Sets "playSelected" to true
+                            selectionY = 17; // Set the value of "selectionY" to 17
+                            Console.Clear(); // Clears the console
+                            RenderMenu(); // Calls the RenderMenu method
                         }
-
                         break;
-
-                    case "Enter":
-
-                        if (playSelected) {
-
-                            Game game = new Game(kR);
-                            RenderMenu();
-
+                    case "Enter": // If it's "Enter"
+                        if (playSelected) { // Ask if "playSelected" is true
+                            // If so...
+                            Game game = new Game(kR); // Creates a new Game and passes to it "kR"
+                            RenderMenu(); // Calls the RenderMenu method
                         } else {
-
-                            Environment.Exit(0);
+                            // Else...
+                            Environment.Exit(0); // Exits the program
                         }
-
                         break;
                 }
-            } while (true);
+            } while (true); // Cycles while true
         }
 
-        private void LoadMenu(string file) {
-            using (StreamReader sr = new StreamReader(path + file)) {
-                string line;
-                if (MenuSprite[0] == null) {
-                    for (int i = 0; (line = sr.ReadLine()) != null; i++) {
-                        MenuSprite[i] = line;
-                    }
+        /// <summary>
+        /// Loads the menu from a specific file
+        /// </summary>
+        private void LoadMenu() {
+            // Iniciates a new StreamReader to read from the wanted file
+            using (StreamReader sr = new StreamReader(path + menu)) {
+                string line; // Creates a new string
+                // Executes a for loop to pass all the information from the file...
+                for (int i = 0; (line = sr.ReadLine()) != null; i++) {
+                    MenuSprite[i] = line; // ...into a specific house of the array
                 }
             }
         }
 
+        /// <summary>
+        /// Renders the Menu
+        /// </summary>
         private void RenderMenu() {
 
             // Display Level Borders
