@@ -35,12 +35,12 @@ namespace PacManGame {
         /// <summary>
         /// Ghost constructor
         /// </summary>
-        /// <param name="number"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="color"></param>
-        /// <param name="direction"></param>
-        /// <param name="pacman"></param>
+        /// <param name="number">Ghost number</param>
+        /// <param name="x">Ghost starting x</param>
+        /// <param name="y">Ghost starting y</param>
+        /// <param name="color">Ghost color</param>
+        /// <param name="direction">Ghost stating direction</param>
+        /// <param name="pacman">PacMan Info</param>
         public Ghost(int number, int x, int y, ConsoleColor color, Direction direction, PacMan pacman) {
             this.x = x;
             this.y = y;
@@ -73,38 +73,49 @@ namespace PacManGame {
             pacman.Died += Reboot;
         }
 
+        /// <summary>
+        /// Draws the Ghost
+        /// </summary>
         public void Plot() {
-            animationTimer++;
+            animationTimer++; // Increasse "animationTimer" by 1
+            // Check if the "animationTimer" is equal to the "animationSpeed"
             if (animationTimer == animationSpeed) {
-                animation = animation == 0 ? 1 : 0;
-                animationTimer = 0;
+                // If so...
+                animation = animation == 0 ? 1 : 0; // Switches the animation frame
+                animationTimer = 0; // Resets the animation timer
             }
+
+            // Switch the ForegroundColor
             Console.ForegroundColor = color;
-            for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(x, y + i);
-                Console.WriteLine(ghosts[animation][i]);
+            for (int i = 0; i < 3; i++) { // Loops 3 times to properlly display the wanted sprite
+                Console.SetCursorPosition(x, y + i); // Sets the cursor position
+                Console.WriteLine(ghosts[animation][i]); // Writes to the console
             }
+            // Switch the ForegroundColor to White
             Console.ForegroundColor = ConsoleColor.White;
 
             // Displays a small animation when the player dies
             if (rebooted) {
-                timer++;
-                Thread.Sleep(125);
-                if (timer > 3) {
-                    timer = 0;
-                    rebooted = false;
+                timer++; // Increasse the timer
+                Thread.Sleep(125); // Suspends the thread for 125 milliseconds
+                if (timer > 3) { // Checks if the timmer is bigger than 3
+                    timer = 0; // Resets the timer
+                    rebooted = false; // Changes rebooted to false
                 }
             }
         }
 
+        /// <summary>
+        /// Clears the previous location the the Ghost
+        /// </summary>
         public void UnPlot() {
-            for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(x, y + i);
-                Console.WriteLine("     ");
+            for (int i = 0; i < 3; i++) { // Loops 3 times to properlly clear the sprite
+                Console.SetCursorPosition(x, y + i); // Sets the cursor position
+                Console.WriteLine("     "); // Writes to the console
             }
             // Displays a small animation when the player dies
-            if (rebooted) {
-                Thread.Sleep(125);
+            if (rebooted) { // Checks if rebooted is true
+                Thread.Sleep(125); // Suspends the thread for 125 milliseconds
             }
         }
 
