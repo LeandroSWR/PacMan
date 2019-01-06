@@ -232,11 +232,12 @@ namespace PacManGame {
 
             } else if (!IsDead) {
                 timer++;
-                if (timer > 140) {
-                    state = GhostState.LeavingSpawn;
-                }
                 // Animate the Ghosts currently trapped in the spawn to move from side to side
                 Move();
+                if (timer > 140) {
+                    state = GhostState.LeavingSpawn;
+                    timer = 0;
+                }
             }
         }
 
