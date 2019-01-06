@@ -32,23 +32,8 @@ namespace WorldDrawTest {
         private bool isVulnerable;
 
         public bool IsDead { get; private set; }
-
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] gFrame1 = new string[3] {
-            "▄███▄",
-            "█@█@█",
-            "█▀█▀█"
-        };
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] gFrame2 = new string[3] {
-            "▄███▄",
-            "█@█@█",
-            "▀█▀█▀"
-        };
-
-
+        private Sprite sp = new Sprite();
+        
         public Ghost(int number, int x, int y, ConsoleColor color, Direction direction, PacMan pacman) {
             this.x = x;
             this.y = y;
@@ -65,8 +50,8 @@ namespace WorldDrawTest {
             timer = 0;
 
             ghosts = new Dictionary<int, string[]> {
-                [0] = gFrame1,
-                [1] = gFrame2
+                [0] = sp.gFrame1,
+                [1] = sp.gFrame2
             };
 
             rnd = new Random(ghostNumber ^ DateTime.Now.Millisecond);

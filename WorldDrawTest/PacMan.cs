@@ -8,6 +8,7 @@ namespace WorldDrawTest {
         public int X { get; private set; }
         public int Y { get; private set; }
         private Dictionary<int, string[]> ghosts;
+        private Sprite sp = new Sprite();
         private int animation;
         private int animationTimer;
         private int speedTimer;
@@ -31,65 +32,12 @@ namespace WorldDrawTest {
 
         public int Points { get; set; }
 
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] rFrame1 = new string[3] {
-            "▄██@▄",
-            "█████",
-            "▀███▀"
-        };
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] rFrame2 = new string[3] {
-            "▄█@█▀",
-            "███  ",
-            "▀███▄"
-        };
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] lFrame1 = new string[3] {
-            "▄@██▄",
-            "█████",
-            "▀███▀"
-        };
-        private readonly string[] lFrame2 = new string[3] {
-            "▀█@█▄",
-            "  ███",
-            "▄███▀"
-        };
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] uFrame1 = new string[3] {
-            "@███▄",
-            "█████",
-            "▀███▀"
-        };
-        private readonly string[] uFrame2 = new string[3] {
-            "▄   ▄",
-            "@█▄██",
-            "▀███▀"
-        };
-        // Create a new read only string array that contains what we need to
-        //draw on the first animated frame of the ghost
-        private readonly string[] dFrame1 = new string[3] {
-            "▄███▄",
-            "█████",
-            "@███▀"
-        };
-        private readonly string[] dFrame2 = new string[3] {
-            "▄███▄",
-            "@█▀██",
-            "▀   ▀"
-        };
-
-
-
         public PacMan(int X, int Y, Direction direction) {
             this.X = X;
             this.Y = Y;
             ghosts = new Dictionary<int, string[]> {
-                [0] = rFrame1,
-                [1] = rFrame2
+                [0] = sp.rFrame1,
+                [1] = sp.rFrame2
             };
             animation = 0;
             animationTimer = 0;
@@ -202,32 +150,32 @@ namespace WorldDrawTest {
                     case Direction.Up:
                         if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
                             Y--;
-                            ghosts[0] = uFrame1;
-                            ghosts[1] = uFrame2;
+                            ghosts[0] = sp.uFrame1;
+                            ghosts[1] = sp.uFrame2;
                         } else
                             direction = Direction.None;
                         break;
                     case Direction.Down:
                         if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
                             Y++;
-                            ghosts[0] = dFrame1;
-                            ghosts[1] = dFrame2;
+                            ghosts[0] = sp.dFrame1;
+                            ghosts[1] = sp.dFrame2;
                         } else
                             direction = Direction.None;
                         break;
                     case Direction.Left:
                         if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
                             X--;
-                            ghosts[0] = lFrame1;
-                            ghosts[1] = lFrame2;
+                            ghosts[0] = sp.lFrame1;
+                            ghosts[1] = sp.lFrame2;
                         } else
                             direction = Direction.None;
                         break;
                     case Direction.Right:
                         if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
                             X++;
-                            ghosts[0] = rFrame1;
-                            ghosts[1] = rFrame2;
+                            ghosts[0] = sp.rFrame1;
+                            ghosts[1] = sp.rFrame2;
                         } else
                             direction = Direction.None;
                         break;

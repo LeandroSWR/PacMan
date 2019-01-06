@@ -6,23 +6,6 @@ using System.Threading.Tasks;
 
 namespace WorldDrawTest {
     class Level {
-        // ╣ ║ ╗ ╝ ╚ ╔ ╩ ╦ ╠ ═ ╬
-        // 107x49
-
-        // PreMade Sprites
-        readonly string[] packString = new string[4] {
-            "╔══════╗╔═════╗╔═════╗",
-            "║   ═  ║║  ═  ║║  ╔══╝",
-            "║  ╔═══╝║ ╔═╗ ║║  ╚══╗",
-            "╚══╝    ╚═╝ ╚═╝╚═════╝",
-            };
-        readonly string[] manString = new string[4] {
-            "╔═╗  ╔═╗╔═════╗╔═╗ ╔═╗",
-            "║ ╚╗╔╝ ║║  ═  ║║ ╚╗╣ ║",
-            "║ ╠╚╝╣ ║║ ╔═╗ ║║ ╠╚╗ ║",
-            "╚═╝  ╚═╝╚═╝ ╚═╝╚═╝ ╚═╝",
-            };
-
         LevelLoader loader = new LevelLoader();
         Sprite sprite = new Sprite();
         private string[] LevelSprite => loader.LevelSprite;
@@ -37,7 +20,7 @@ namespace WorldDrawTest {
             GetCollider();
             RenderLevel();
         }
-        //3x25
+        
         private void GetCollider() {
             for (int i = 0; i < LevelSprite.Length; i++) {
                 for (int u = 0; u < LevelSprite[i].Length; u++) {
@@ -202,12 +185,12 @@ namespace WorldDrawTest {
             //    }
             //}
             // Display PacMan Logo
-            for (int i = 0; i < packString.Length; i++) {
+            for (int i = 0; i < sprite.packString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.SetCursorPosition(0, 16 + i);
-                Console.Write(packString[i]);
+                Console.Write(sprite.packString[i]);
                 Console.SetCursorPosition(85, 16 + i);
-                Console.Write(manString[i]);
+                Console.Write(sprite.manString[i]);
             }
         }
     }
