@@ -82,6 +82,7 @@ namespace PacManGame {
                 timer++;
                 Thread.Sleep(125);
                 if (timer > 3) {
+                    timer = 0;
                     reboted = false;
                 }
             }
@@ -232,7 +233,7 @@ namespace PacManGame {
             } else if (!IsDead) {
                 timer++;
                 if (timer > 140) {
-                    LeaveSpawn();
+                    state = GhostState.LeavingSpawn;
                 }
                 // Animate the Ghosts currently trapped in the spawn to move from side to side
                 Move();
