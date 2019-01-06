@@ -152,42 +152,48 @@ namespace PacManGame {
         /// Moves the player each frame
         /// </summary>
         public void Move() {
-            speedTimer++;
+            speedTimer++;// Increasse speedTimer by 1
 
+            // Check if the speedTimer is equal to moveSpeed
             if (speedTimer >= moveSpeed) {
-                speedTimer = 0;
+                // If So...
+                speedTimer = 0; // reset speedTimer
 
-                switch (direction) {
-                    case Direction.Up:
+                switch (direction) { // Checks the current direction
+                    case Direction.Up: // If Up...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
-                            y--;
+                            y--; // Decreasse Y by 1
                         } else {
-                            direction = Direction.Down;
+                            direction = Direction.Down; // Change Direction to Down
                         }
                         break;
-                    case Direction.Down:
+                    case Direction.Down:// If Down...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
-                            y++;
+                            y++;// Increasse Y by 1
                         } else {
-                            direction = Direction.Up;
+                            direction = Direction.Up; // Change Direction to Up
                         }
                         break;
                     case Direction.Left:
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2]) {
-                            x--;
+                            x--; // Decreasse X by 1
                         } else {
-                            direction = Direction.Right;
+                            direction = Direction.Right; // Change Direction to Right
                         }
                         break;
                     case Direction.Right:
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2]) {
-                            x++;
+                            x++; // Increasse X by 1
                         } else {
-                            direction = Direction.Left;
+                            direction = Direction.Left; // Change Direction to Left
                         }
                         break;
                     case Direction.None:
-                        Console.Beep();
+                        Console.Beep(); // Beeps
                         break;
                 }
             }
@@ -198,7 +204,7 @@ namespace PacManGame {
         /// Randomizes the Ghosts direction
         /// </summary>
         private void UpdateDirection() {
-
+            // If the direction is Left or Right has a chance to change it to Up or Down
             if (direction == Direction.Left || direction == Direction.Right) {
 
                 if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
@@ -215,6 +221,7 @@ namespace PacManGame {
                         direction = Direction.Down;
                     }
                 }
+                // If the direction is Up or Down has a chance to change it to Left or Right
             } else if (direction == Direction.Up || direction == Direction.Down) {
 
                 if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] && !Level.WallCollider[x - 1, y + 1]) {
@@ -239,36 +246,38 @@ namespace PacManGame {
         /// </summary>
         private void UpdateState() {
 
-            switch (state) {
+            switch (state) { // Checks the current Stated
 
                 case GhostState.LeavingSpawn:
 
                     if (IsDead) IsDead = false;
-                    LeaveSpawn();
+                    LeaveSpawn(); // Calls LeaveSpawn Method
 
                     break;
 
                 case GhostState.SearchPacMan:
-                    Move();
-                    UpdateDirection();
-                    CheckPacMan();
-                    if (isVulnerable) state = GhostState.RunFromPacman;
+                    Move(); // Calls Move Method
+                    UpdateDirection(); // Calls UpdateDirection Method
+                    CheckPacMan(); // Calls CheckPacMan Method
+                    // If vulnerable switch state to RunFromPacman
+                    if (isVulnerable) state = GhostState.RunFromPacman; 
                     break;
 
                 case GhostState.FollowPacMan:
-                    Move();
-                    Follow();
+                    Move(); // Calls Move Method
+                    Follow(); // Calls Follow Method
+                    // If vulnerable switch state to RunFromPacman
                     if (isVulnerable) state = GhostState.RunFromPacman;
                     break;
 
                 case GhostState.RunFromPacman:
-                    Move();
-                    Run();
+                    Move(); // Calls Move Method
+                    Run(); // Calls Run Method
                     break;
 
                 case GhostState.ReturnToSpawn:
 
-                    ReturnToSpawn();
+                    ReturnToSpawn(); // Calls ReturnToSpawn Method
                     break;
             }
         }
