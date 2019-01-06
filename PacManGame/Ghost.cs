@@ -385,28 +385,24 @@ namespace PacManGame {
             }
             timer++;
 
-            if (!CheckPacMan()) {
-                
-                UpdateDirection();
 
-            } else {
+            UpdateDirection();
 
-                if (y > pacman.Y) {
+            if (y > pacman.Y && direction == Direction.Up && x == pacman.X) {
 
-                    direction = Direction.Down;
+                direction = Direction.Down;
 
-                } else if (y < pacman.Y) {
+            } else if (y < pacman.Y && direction == Direction.Down && x == pacman.X) {
 
-                    direction = Direction.Up;
+                direction = Direction.Up;
 
-                } else if (x > pacman.X) {
+            } else if (x > pacman.X && direction == Direction.Left && y == pacman.Y) {
 
-                    direction = Direction.Right;
+                direction = Direction.Right;
 
-                } else if (x < pacman.X) {
+            } else if (x < pacman.X && direction == Direction.Right && y == pacman.Y) {
 
-                    direction = Direction.Left;
-                }
+                direction = Direction.Left;
             }
 
             if (timer > 320) {
