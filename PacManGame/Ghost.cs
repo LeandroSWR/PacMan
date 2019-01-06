@@ -409,11 +409,8 @@ namespace PacManGame {
                 }
             }
 
-            if (timer < 320) {
-                
-                return;
+            if (timer > 320) {
 
-            } else {
                 timer = 0;
                 BackToNormal();
             }
