@@ -32,6 +32,15 @@ namespace PacManGame {
 
         public bool IsDead { get; private set; }
         
+        /// <summary>
+        /// Ghost constructor
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color"></param>
+        /// <param name="direction"></param>
+        /// <param name="pacman"></param>
         public Ghost(int number, int x, int y, ConsoleColor color, Direction direction, PacMan pacman) {
             this.x = x;
             this.y = y;

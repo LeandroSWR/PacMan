@@ -2,76 +2,95 @@
 using System.Collections.Generic;
 
 namespace PacManGame {
+    /// <summary>
+    /// This Class is responsible for everything related to PacMan
+    /// </summary>
     class PacMan {
         
-        private int timer;
-        private int animation;
-        private int speedTimer;
-        private int totalPoints;
-        private int animationTimer;
-        private int setTime = DateTime.Now.Second;
+        private int animation; // Declares a new int
+        private int speedTimer; // Declares a new int
+        private int totalPoints; // Declares a new int
+        private int animationTimer; // Declares a new int
         
-        public Direction direction;
-        public Direction nextDirection;
+        public Direction direction; // Declares a new Direction
+        public Direction nextDirection; // Declares a new Direction
 
-        private readonly int animationSpeed;
-        private readonly int moveSpeed;
-        
-        public bool IsDead { get; set; }
+        private readonly int moveSpeed; // Declares a new readonly int
+        private readonly int animationSpeed; // Declares a new readonly int
 
-        public int Points { get; set; }
+        public bool IsDead { get; set; } // Declares a new auto implemented bool
+
+        public int Points { get; set; } // Declares a new auto implemented int
+        // Declares a new auto implemented int with a private set
         public int X { get; private set; }
+        // Declares a new auto implemented int with a private set
         public int Y { get; private set; }
+        // Declares a new auto implemented int with a private set
         public int Health { get; private set; }
-        public int NLevel { get; private set; }
+        // Declares a new auto implemented int with a private set
+        public int NLevel { get; private set; } 
 
-        private Dictionary<int, string[]> ghosts;
-        private Sprite sp = new Sprite();
-        public event Action EatSpecialPoints;
-        public event Action Died;
+        private Dictionary<int, string[]> pac; // Declares new new Dictionary <int, string>
+        private Sprite sp = new Sprite(); // Creates a new "Sprite" "sp"
+        public event Action EatSpecialPoints; // Declares a new Action
+        public event Action Died; // Declares a new Action
 
+        /// <summary>
+        /// PacMan constructor
+        /// </summary>
+        /// <param name="X">PacMan starting X</param>
+        /// <param name="Y">PacMan starting Y</param>
+        /// <param name="direction">PacMan starting Direction</param>
         public PacMan(int X, int Y, Direction direction) {
-            this.X = X;
-            this.Y = Y;
-            ghosts = new Dictionary<int, string[]> {
+            this.X = X; // Sets my X equal to the recieved X
+            this.Y = Y; // Sets my Y equal to the recieved Y
+            // Adds 2 sprites to the Dictionary
+            pac = new Dictionary<int, string[]> {
                 [0] = sp.rFrame1,
                 [1] = sp.rFrame2
             };
-            animation = 0;
-            animationTimer = 0;
-            animationSpeed = 4;
-            this.direction = direction;
+            animation = 0; // Set "animation" to 0
+            animationTimer = 0; // Set "animation" to 0
+            animationSpeed = 4; // Set "animation" to 0 
+            this.direction = direction; // Set my "direction" equal to the recieved direction
 
-            speedTimer = 0;
-            moveSpeed = 2;
+            speedTimer = 0; // Set "speedTimer" to 0
+            moveSpeed = 2; // Set "moveSpeed" to 2
 
-            timer = setTime;
+            Health = 3; // Set "Health" to 3
 
-            Health = 3;
+            totalPoints = 207; // Set "totalPoints" to 207
 
-            totalPoints = 207;
-
-            NLevel = 1;
+            NLevel = 1; // Set "NLevel" to 1
         }
 
+        /// <summary>
+        /// Draws PacMan
+        /// </summary>
         public void Plot() {
-            animationTimer++;
-            if (animationTimer == animationSpeed) {
-                animation = animation == 0 ? 1 : 0;
-                animationTimer = 0;
+            animationTimer++; // Increasse "animationTimer" by 1
+            // Check if the "animationTimer" is equal to the "animationSpeed"
+            if (animationTimer == animationSpeed) { 
+                // If so...
+                animation = animation == 0 ? 1 : 0; // Switches the animation frame
+                animationTimer = 0; // Resets the animation timer
             }
-            
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(X, Y + i);
-                Console.WriteLine(ghosts[animation][i]);
+
+            // Switch ForegroundColor to DarkYellow
+            Console.ForegroundColor = ConsoleColor.DarkYellow; 
+            for (int i = 0; i < 3; i++) { // Loops 3 times to properlly display the wanted sprite
+                Console.SetCursorPosition(X, Y + i); // Sets the cursor position
+                Console.WriteLine(pac[animation][i]); // Writes to the console
             }
         }
 
+        /// <summary>
+        /// Clears the previous location of PacMan
+        /// </summary>
         public void UnPlot() {
-            for (int i = 0; i < 3; i++) {
-                Console.SetCursorPosition(X, Y + i);
-                Console.WriteLine("     ");
+            for (int i = 0; i < 3; i++) { // Loops 3 times to properlly clear the sprite
+                Console.SetCursorPosition(X, Y + i); // Sets the cursor position
+                Console.WriteLine("     "); // Writes to the console
             }
         }
 
@@ -79,52 +98,63 @@ namespace PacManGame {
         /// Check's if theres a movement available to where the player wants to move
         /// </summary>
         private void FixDirection() {
-            switch (nextDirection) {
-                case Direction.Up:
+            switch (nextDirection) { // Checks the next wanted direction
+                case Direction.Up: // If Up...
+                    // Checks if there's no wall on top
                     if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
-                        direction = nextDirection;
-                        nextDirection = Direction.None;
+                        direction = nextDirection; // Switches the direction
+                        nextDirection = Direction.None; // Set the nextDirection to None
                     }
                     break;
-                case Direction.Down:
+                case Direction.Down: // If Down...
+                    // Checks if there's no wall bellow
                     if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
-                        direction = nextDirection;
-                        nextDirection = Direction.None;
+                        direction = nextDirection; // Switches the direction
+                        nextDirection = Direction.None; // Set the nextDirection to None
                     }
                     break;
-                case Direction.Left:
+                case Direction.Left: // If Left...
+                    // Checks if there's no wall to the left
                     if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
-                        direction = nextDirection;
-                        nextDirection = Direction.None;
+                        direction = nextDirection; // Switches the direction
+                        nextDirection = Direction.None; // Set the nextDirection to None
                     }
                     break;
-                case Direction.Right:
+                case Direction.Right: // If Right...
+                    // Checks if there's no wall to the right
                     if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
-                        direction = nextDirection;
-                        nextDirection = Direction.None;
+                        direction = nextDirection; // Switches the direction
+                        nextDirection = Direction.None; // Set the nextDirection to None
                     }
                     break;
             }
         }
 
+        /// <summary>
+        /// Update method
+        /// </summary>
         public void Update() {
-
-            CheckPointsCollision();
-            Move();
+            CheckPointsCollision(); // Calls the CheckPointsCollision method
+            Move(); // Calls the Move method
         }
 
+        /// <summary>
+        /// Checks if there's a collision with any points
+        /// </summary>
         private void CheckPointsCollision() {
+            // Loops trought the PointsCollider to check if we collided with one
             for (int i = 0; i < Level.y; i++) {
                 for (int u = 0; u < Level.x; u++) {
                     if (Level.PointsCollider[u, i] != default(char)) {
                         if (((X + 1 == u || X + 3 == u) && Y + 1 == i) ||
                             ((Y == i || Y + 2 == i) && X + 2 == u)) {
+                            // Check if the point we collided with is a special point
                             if (Level.PointsCollider[u, i] == '█') {
-                                
-                                EatSpecialPoints();
+                                EatSpecialPoints(); // Executes the EatSpecialPoints Event
                             }
-                            Points += 10;
-                            totalPoints--;
+                            Points += 10; // Increases the score
+                            totalPoints--; // Reduces the number of points left
+                            // Removes the "ate" point from the array
                             Level.PointsCollider[u, i] = default(char);
                         }
                     }
@@ -136,90 +166,114 @@ namespace PacManGame {
         /// Moves the player each frame
         /// </summary>
         private void Move() {
-            speedTimer++;
-            FixDirection();
-            CheckToroidal();
+            speedTimer++; // Increasse speedTimer by 1
+            FixDirection(); // Call the FixDirection method
+            CheckToroidal(); // Call the CheckToroidal method
 
+            // Check if the speedTimer is equal to moveSpeed
             if (speedTimer == moveSpeed) {
-                speedTimer = 0;
+                // If So...
+                speedTimer = 0; // reset speedTimer
 
-                switch (direction) {
-                    case Direction.Up:
+                switch (direction) { // Checks the current direction
+                    case Direction.Up: // If Up...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[X, Y - 1] && !Level.WallCollider[X + 4, Y - 1]) {
-                            Y--;
-                            ghosts[0] = sp.uFrame1;
-                            ghosts[1] = sp.uFrame2;
+                            // If so...
+                            Y--; // Decreasse Y by 1
+                            // Switch the sprite on the dictionary to the moving Up sprite
+                            pac[0] = sp.uFrame1; 
+                            pac[1] = sp.uFrame2;
                         } else
-                            direction = Direction.None;
+                            // Else...
+                            direction = Direction.None; // Change Direction to None
                         break;
-                    case Direction.Down:
+                    case Direction.Down: // If Down...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[X, Y + 3] && !Level.WallCollider[X + 4, Y + 3]) {
-                            Y++;
-                            ghosts[0] = sp.dFrame1;
-                            ghosts[1] = sp.dFrame2;
+                            Y++; // Increasse Y by 1
+                            // Switch the sprite on the dictionary to the moving Down sprite
+                            pac[0] = sp.dFrame1;
+                            pac[1] = sp.dFrame2;
                         } else
-                            direction = Direction.None;
+                            // Else...
+                            direction = Direction.None; // Change Direction to None
                         break;
-                    case Direction.Left:
+                    case Direction.Left: // If Left...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[X - 1, Y] && !Level.WallCollider[X - 1, Y + 2]) {
-                            X--;
-                            ghosts[0] = sp.lFrame1;
-                            ghosts[1] = sp.lFrame2;
+                            X--; // Decreasse X by 1
+                            // Switch the sprite on the dictionary to the moving Left sprite
+                            pac[0] = sp.lFrame1;
+                            pac[1] = sp.lFrame2;
                         } else
-                            direction = Direction.None;
+                            // Else...
+                            direction = Direction.None; // Change Direction to None
                         break;
-                    case Direction.Right:
+                    case Direction.Right: // If Right...
+                        // Check if we're not colliding with the wall
                         if (!Level.WallCollider[X + 5, Y] && !Level.WallCollider[X + 5, Y + 2]) {
-                            X++;
-                            ghosts[0] = sp.rFrame1;
-                            ghosts[1] = sp.rFrame2;
+                            X++; // Increasse X by 1
+                            // Switch the sprite on the dictionary to the moving Right sprite
+                            pac[0] = sp.rFrame1;
+                            pac[1] = sp.rFrame2;
                         } else
-                            direction = Direction.None;
+                            // Else...
+                            direction = Direction.None; // Change Direction to None
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// Checks the location of the player for a possible toroidal movement
+        /// </summary>
         private void CheckToroidal() {
+            // Check if there's a toroidal movement
             if (X == 1 && Y == 21 ||
                 X == 101 && Y == 21) {
-                X = direction == Direction.Right ? 1 : 101;
+                // If so..
+                X = direction == Direction.Right ? 1 : 101; // Teleports to he oposite site
             }
         }
 
+        /// <summary>
+        /// Respawns the Player
+        /// </summary>
         public void Respawn() {
-
+            // Check if isDead is true
             if (IsDead) {
-
-                IsDead = false;
-                Health--;
-                X = 51;
-                Y = 25;
-                direction = Direction.Right;
-                Died();
-
+                IsDead = false; // Change isDead to false
+                Health--; // Decreasses the number of lives
+                X = 51; // Resets the X position
+                Y = 25; // Resets the Y position
+                direction = Direction.Right; // Resets the direction
+                nextDirection = Direction.None;  // Resets the nextDirection
+                Died(); // Executes the Died Event
             } else {
-
-                X = 51;
-                Y = 25;
-                direction = Direction.Right;
+                X = 51; // Resets the X position
+                Y = 25; // Resets the Y position
+                direction = Direction.Right; // Resets the direction
+                nextDirection = Direction.None;  // Resets the nextDirection
             }
         }
 
+        /// <summary>
+        /// Checks for win condition
+        /// </summary>
+        /// <returns>Returns true of False</returns>
         public bool WinCondition() {
+            if (totalPoints == 0) { // Checks if pacMan as ate all the points
+                // If so...
+                NLevel++; // Increasse the level
+                Health = 3; // Reset the number of Lives
+                Points += 10000; // Add 10000 points to score
+                totalPoints = 207; // Resets the total number of points on the map
+                Respawn(); // Respawns PacMan
 
-            if (totalPoints == 0) {
-                
-                NLevel++;
-                Health = 3;
-                Points += 10000;
-                totalPoints = 207;
-                Respawn();
-
-                return true;
+                return true; // Returns true
             }
-
-            return false;
+            return false; // Returns False
         }
     }
 }
