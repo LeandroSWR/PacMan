@@ -6,27 +6,31 @@ namespace PacManGame {
     class Ghost {
         private int x;
         private int y;
-        private ConsoleColor color;
-        private Dictionary<int, string[]> ghosts;
         private int animation;
         private int animationTimer;
         private int animationSpeed;
-        private Direction direction;
         private int moveSpeed;
         private int speedTimer;
-        private Random rnd;
         private int ghostNumber;
-        private GhostState state;
         private int timer;
         private int chance;
-        private PacMan pacman;
         private int lastPacX;
         private int lastPacY;
-        private Direction lastPacDir;
+        
         private bool isVulnerable;
+        private bool reboted;
+        
+        private Dictionary<int, string[]> ghosts;
+        private Sprite sp = new Sprite();
+        private PacMan pacman;
+        private Random rnd;
+
+        private GhostState state;
+        private Direction lastPacDir;
+        private Direction direction;
+        private ConsoleColor color;
 
         public bool IsDead { get; private set; }
-        private Sprite sp = new Sprite();
         
         public Ghost(int number, int x, int y, ConsoleColor color, Direction direction, PacMan pacman) {
             this.x = x;
@@ -43,6 +47,10 @@ namespace PacManGame {
             moveSpeed = 2;
             timer = 0;
 
+            isVulnerable = false;
+            reboted = false;
+            IsDead = false;
+
             ghosts = new Dictionary<int, string[]> {
                 [0] = sp.gFrame1,
                 [1] = sp.gFrame2
@@ -51,9 +59,6 @@ namespace PacManGame {
             rnd = new Random(ghostNumber ^ DateTime.Now.Millisecond);
 
             state = GhostState.LeavingSpawn;
-
-            isVulnerable = false;
-            IsDead = false;
 
             pacman.EatSpecialPoints += Run;
             pacman.Died += Reboot;
@@ -71,12 +76,25 @@ namespace PacManGame {
                 Console.WriteLine(ghosts[animation][i]);
             }
             Console.ForegroundColor = ConsoleColor.White;
+
+            // Displays a small animation when the player dies
+            if (reboted) {
+                timer++;
+                Thread.Sleep(150);
+                if (timer > 6) {
+                    reboted = false;
+                }
+            }
         }
 
         public void UnPlot() {
             for (int i = 0; i < 3; i++) {
                 Console.SetCursorPosition(x, y + i);
                 Console.WriteLine("     ");
+            }
+            // Displays a small animation when the player dies
+            if (reboted) {
+                Thread.Sleep(150);
             }
         }
 
@@ -208,30 +226,16 @@ namespace PacManGame {
                 BackToNormal();
                 IsDead = false;
 
-                switch (ghostNumber) {
-                    case 1:
-                        x = 39;
-                        y = 21;
-                        break;
-                    case 2:
-                        x = 46;
-                        y = 21;
-                        break;
-                    case 3:
-                        x = 56;
-                        y = 21;
-                        break;
-                    case 4:
-                        x = 63;
-                        y = 21;
-                        break;
-                }
+                x = 51;
+                y = 21;
 
             } else if (!IsDead) {
                 timer++;
-                if (timer > 50) {
+                if (timer > 140) {
                     LeaveSpawn();
                 }
+                // Animate the Ghosts currently trapped in the spawn to move from side to side
+                Move();
             }
         }
 
@@ -244,9 +248,9 @@ namespace PacManGame {
 
         private void LeaveSpawn() {
             timer++;
-            if (ghostNumber > 2 && timer < 40) return;
+            if (x > 51 && timer < 40) return;
             if (x < 51 || x > 51) {
-                x = ghostNumber > 2 ? x - 1 : x + 1;
+                x = x > 51 ? x - 1 : x + 1;
             } else if (y > 17) {
                 y--;
             } else {
@@ -403,7 +407,7 @@ namespace PacManGame {
                 }
             }
 
-            if (timer < 160) {
+            if (timer < 320) {
                 
                 return;
 
@@ -482,8 +486,7 @@ namespace PacManGame {
             }
 
             state = GhostState.LeavingSpawn;
-
-            Thread.Sleep(250);
+            reboted = true;
         }
     }
 }
