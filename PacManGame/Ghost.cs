@@ -48,7 +48,7 @@ namespace PacManGame {
             timer = 0;
 
             isVulnerable = false;
-            reboted = false;
+            reboted = true;
             IsDead = false;
 
             ghosts = new Dictionary<int, string[]> {
@@ -80,8 +80,8 @@ namespace PacManGame {
             // Displays a small animation when the player dies
             if (reboted) {
                 timer++;
-                Thread.Sleep(150);
-                if (timer > 6) {
+                Thread.Sleep(125);
+                if (timer > 3) {
                     reboted = false;
                 }
             }
@@ -94,7 +94,7 @@ namespace PacManGame {
             }
             // Displays a small animation when the player dies
             if (reboted) {
-                Thread.Sleep(150);
+                Thread.Sleep(125);
             }
         }
 
@@ -445,8 +445,10 @@ namespace PacManGame {
 
         private void CheckCollision() {
 
-            if (x == pacman.X + 2 && y == pacman.Y || x == pacman.X && y == pacman.Y + 2 ||
-                x == pacman.X && y + 2 == pacman.Y || x + 2 == pacman.X && y + 2 == pacman.Y + 2) {
+            if ((x >= pacman.X && x <= pacman.X + 4 && y == pacman.Y) ||
+                (x + 4 >= pacman.X && x + 4 <= pacman.X + 4 && y == pacman.Y) ||
+                (x == pacman.X && y <= pacman.Y && y >= pacman.Y + 2) ||
+                (x == pacman.X && y + 2 >= pacman.Y && y <= pacman.Y + 2)) {
 
                 if (isVulnerable) {
 
