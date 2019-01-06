@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacGhostsTest", "PacGhostsTest\PacGhostsTest.csproj", "{786CB8F3-5B55-4B3A-B7DC-80B851525930}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacManTest", "PacManTest\PacManTest.csproj", "{8F253060-C107-4DD6-A31A-513238A9556A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldDrawTest", "WorldDrawTest\WorldDrawTest.csproj", "{CD5B1D4E-B09B-4F35-83D6-C2EA96894432}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacManGame", "WorldDrawTest\PacManGame.csproj", "{CD5B1D4E-B09B-4F35-83D6-C2EA96894432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{786CB8F3-5B55-4B3A-B7DC-80B851525930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{786CB8F3-5B55-4B3A-B7DC-80B851525930}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{786CB8F3-5B55-4B3A-B7DC-80B851525930}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{786CB8F3-5B55-4B3A-B7DC-80B851525930}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F253060-C107-4DD6-A31A-513238A9556A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F253060-C107-4DD6-A31A-513238A9556A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F253060-C107-4DD6-A31A-513238A9556A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F253060-C107-4DD6-A31A-513238A9556A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD5B1D4E-B09B-4F35-83D6-C2EA96894432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD5B1D4E-B09B-4F35-83D6-C2EA96894432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5B1D4E-B09B-4F35-83D6-C2EA96894432}.Release|Any CPU.ActiveCfg = Release|Any CPU

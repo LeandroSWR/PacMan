@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class Level {
         LevelLoader loader = new LevelLoader();
         Sprite sprite = new Sprite();

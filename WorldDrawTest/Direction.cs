@@ -1,4 +1,4 @@
-﻿namespace WorldDrawTest {
+﻿namespace PacManGame {
     public enum Direction {
         Up = 1,
         Down = 2,

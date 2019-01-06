@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class LevelLoader {
         private readonly string path = @"";
         private readonly string level = "PacMan_Level.txt";

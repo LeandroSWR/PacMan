@@ -51,7 +51,6 @@
     <Compile Include="Level.cs" />
     <Compile Include="LevelLoader.cs" />
     <Compile Include="Menu.cs" />
-    <Compile Include="MenuSymbols.cs" />
     <Compile Include="PacMan.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

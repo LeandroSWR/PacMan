@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using System.Windows.Input;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class KeyReader {
         private BlockingCollection<ConsoleKey> keyQueue;
 

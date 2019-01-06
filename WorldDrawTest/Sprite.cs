@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WorldDrawTest {
+﻿namespace PacManGame {
     class Sprite {
         // PreMade PacMan Sprites
         public readonly string[] packString = new string[4] {
@@ -19,6 +13,24 @@ namespace WorldDrawTest {
             "║ ╠╚╝╣ ║║ ╔═╗ ║║ ╠╚╗ ║",
             "╚═╝  ╚═╝╚═╝ ╚═╝╚═╝ ╚═╝",
             };
+        public readonly string[] playString = new string[4] {
+            "╔══════╗╔══╗  ╔═════╗╔╗   ╔╗",
+           @"║   ═  ║║  ║  ║  ═  ║╚╗\ /╔╝",
+            "║  ╔═══╝║  ╚═╗║ ╔═╗ ║ ╚╗ ╔╝",
+            "╚══╝    ╚════╝╚═╝ ╚═╝  ╚═╝",
+        };
+
+        public readonly string[] quitString = new string[5] {
+            "╔═════╗╔═╗ ╔═╗╔══╗╔═════╗",
+            "║ ╔═╗ ║║ ║ ║ ║║  ║╚═╗ ╔═╝",
+            "║ ╚═╝ ║║ ╚═╝ ║║  ║  ║ ║",
+            "╚═══╗ ║╚═════╝╚══╝  ╚═╝",
+            "    ╚═╝"
+        };
+        public readonly string[] selectionString = new string[2] {
+            "████",
+            "████"
+        };
         // Create a new read only string array that contains what we need to
         //draw on the first animated frame of the ghost
         public readonly string[] gFrame1 = new string[3] {

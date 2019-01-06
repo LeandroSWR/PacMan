@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class Game {
 
         private Level level;
@@ -33,36 +29,16 @@ namespace WorldDrawTest {
             while (pacMan.Health != 0) {
 
                 pacMan.Plot();
-                level.RenderPoints();
                 ghost1.Plot();
                 ghost2.Plot();
                 ghost3.Plot();
                 ghost4.Plot();
 
+                level.RenderPoints();
+
                 level.RenderUi(pacMan.Points, pacMan.Health, pacMan.NLevel);
 
-                switch (kR.Input) {
-                    case "Up":
-                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Down)
-                            pacMan.direction = Direction.Up;
-                        pacMan.nextDirection = Direction.Up;
-                        break;
-                    case "Right":
-                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Left)
-                            pacMan.direction = Direction.Right;
-                        pacMan.nextDirection = Direction.Right;
-                        break;
-                    case "Left":
-                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Right)
-                            pacMan.direction = Direction.Left;
-                        pacMan.nextDirection = Direction.Left;
-                        break;
-                    case "Down":
-                        if (pacMan.direction == Direction.None || pacMan.direction == Direction.Up)
-                            pacMan.direction = Direction.Down;
-                        pacMan.nextDirection = Direction.Down;
-                        break;
-                }
+                ReadInput();
 
                 Thread.Sleep(20);
 
@@ -80,6 +56,31 @@ namespace WorldDrawTest {
             }
 
             ResetLevel();
+        }
+
+        private void ReadInput() {
+            switch (kR.Input) {
+                case "Up":
+                    if (pacMan.direction == Direction.None || pacMan.direction == Direction.Down)
+                        pacMan.direction = Direction.Up;
+                    pacMan.nextDirection = Direction.Up;
+                    break;
+                case "Right":
+                    if (pacMan.direction == Direction.None || pacMan.direction == Direction.Left)
+                        pacMan.direction = Direction.Right;
+                    pacMan.nextDirection = Direction.Right;
+                    break;
+                case "Left":
+                    if (pacMan.direction == Direction.None || pacMan.direction == Direction.Right)
+                        pacMan.direction = Direction.Left;
+                    pacMan.nextDirection = Direction.Left;
+                    break;
+                case "Down":
+                    if (pacMan.direction == Direction.None || pacMan.direction == Direction.Up)
+                        pacMan.direction = Direction.Down;
+                    pacMan.nextDirection = Direction.Down;
+                    break;
+            }
         }
 
         private void ResetLevel() {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class Program {
         static void Main(string[] args) {
             Console.CursorVisible = false;

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.IO;
 
-namespace WorldDrawTest {
+namespace PacManGame {
     class Menu {
 
         private readonly string path = @"";
@@ -18,12 +14,12 @@ namespace WorldDrawTest {
 
         public string[] MenuSprite { get; private set; } = new string[49];
 
-        MenuSymbols ms;
         KeyReader kR;
+        Sprite sp;
 
         public Menu() {
 
-            ms = new MenuSymbols();
+            sp = new Sprite();
             kR = new KeyReader();
 
             selectionY = 17;
@@ -106,56 +102,56 @@ namespace WorldDrawTest {
             }
 
             // Display PacMan Logo
-            for (int i = 0; i < ms.packString.Length; i++) {
+            for (int i = 0; i < sp.packString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.SetCursorPosition(0, 16 + i);
-                Console.Write(ms.packString[i]);
+                Console.Write(sp.packString[i]);
                 Console.SetCursorPosition(85, 16 + i);
-                Console.Write(ms.manString[i]);
+                Console.Write(sp.manString[i]);
             }
 
             // Display Play
-            for (int i = 0; i < ms.playString.Length; i++) {
+            for (int i = 0; i < sp.playString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(45, 16 + i);
-                Console.Write(ms.playString[i]);
+                Console.Write(sp.playString[i]);
             }
 
             // Display Quit
-            for (int i = 0; i < ms.quitString.Length; i++) {
+            for (int i = 0; i < sp.quitString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(45, 24 + i);
-                Console.Write(ms.quitString[i]);
+                Console.Write(sp.quitString[i]);
             }
 
             // Display PacMan
-            for (int i = 0; i < ms.pacManString.Length; i++) {
+            for (int i = 0; i < sp.lFrame2.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.SetCursorPosition(35, 33 + i);
-                Console.Write(ms.pacManString[i]);
+                Console.Write(sp.lFrame2[i]);
             }
 
             // Display Ghosts
-            for (int i = 0; i < ms.ghost1String.Length; i++) {
+            for (int i = 0; i < sp.gFrame1.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(46, 33 + i);
-                Console.Write(ms.ghost1String[i]);
+                Console.Write(sp.gFrame1[i]);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.SetCursorPosition(53, 33 + i);
-                Console.Write(ms.ghost2String[i]);
+                Console.Write(sp.gFrame1[i]);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.SetCursorPosition(60, 33 + i);
-                Console.Write(ms.ghost3String[i]);
+                Console.Write(sp.gFrame1[i]);
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.SetCursorPosition(67, 33 + i);
-                Console.Write(ms.ghost4String[i]);
+                Console.Write(sp.gFrame1[i]);
             }
 
             // Display Selection Square
-            for (int i = 0; i < ms.selectionString.Length; i++) {
+            for (int i = 0; i < sp.selectionString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.SetCursorPosition(34, selectionY + i);
-                Console.Write(ms.selectionString[i]);
+                Console.Write(sp.selectionString[i]);
             }
 
             // Ask for input
