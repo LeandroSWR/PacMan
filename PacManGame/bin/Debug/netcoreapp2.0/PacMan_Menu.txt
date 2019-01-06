@@ -37,13 +37,13 @@
 ║                                                                                                         ║
 ║                                                                                                         ║
 ╠════════════╗                                                                               ╔════════════╣
-╠════════════╝                                                                               ╚════════════╣
+╠════════════╝          Avoid all Ghosts unless they're blue, Eat all points to win!         ╚════════════╣
 ║                                                                                                         ║
 ║                                                                                                         ║
-║                                              Game Made By:                                              ║
+║                                      Controls:         Game Made By:                                    ║
 ║                                                                                                         ║
-║                                              Flávio Santos                                              ║
-║                                              Leandro Brás                                               ║
+║                                      WASD - Move       Flávio Santos                                    ║
+║                                      Arrows - Move     Leandro Brás                                     ║
 ║                                                                                                         ║
 ║                                                                                                         ║
 ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════╝

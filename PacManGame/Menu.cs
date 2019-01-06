@@ -6,18 +6,20 @@ namespace PacManGame {
     /// This Class is responsible for Displaying the menu and letting the player sellect an option
     /// </summary>
     class Menu {
-
-        private readonly string path = @""; // Creates a new empty string
-        private readonly string menu = "PacMan_Menu.txt"; // Creates a new string called "menu"
-
-        private int selectionY; // Declares a new int
-
-        private bool playSelected; // Declares a new bool
-
+        /** \brief Creates a new empty string */
+        private readonly string path = @"";
+        /** \brief Creates a new string with the file name */
+        private readonly string menu = "PacMan_Menu.txt";
+        /** \brief Saves the Y position for the Selection sprite */
+        private int selectionY;
+        /** \brief Knows if have the play button selected */
+        private bool playSelected;
+        /** \brief Knows if have the play button selected */
         public string[] MenuSprite { get; private set; } = new string[49];
-
-        KeyReader kR; // Declares a new "KeyReader"
-        Sprite sp; // Declares a new "Sprite"
+        /** \brief Declares a new "KeyReader" */
+        KeyReader kR;
+        /** \brief Declares a new "Sprite" */
+        Sprite sp;
 
         /// <summary>
         /// Menu constructor

@@ -4,32 +4,51 @@ using System.Threading;
 
 namespace PacManGame {
     class Ghost {
+        /** \brief Ghost X position */
         private int x;
+        /** \brief Ghost Y position */
         private int y;
+        /** \brief Knows what animation frame should be shown */
         private int animation;
+        /** \brief Timer for the animation */
         private int animationTimer;
+        /** \brief Animation speed */
         private int animationSpeed;
+        /** \brief Movement speed */
         private int moveSpeed;
+        /** \brief Timer for the movement speed */
         private int speedTimer;
+        /** \brief Number of this Ghost */
         private int ghostNumber;
+        /** \brief Multi uses timer */
         private int timer;
+        /** \brief Random chance of changing direction */
         private int chance;
+        /** \brief PacMan X when he was last seen */
         private int lastPacX;
+        /** \brief PacMan Y when he was last seen */
         private int lastPacY;
-        
+        /** \brief Knows if the Ghost is currently vulnerable */
         private bool isVulnerable;
+        /** \brief Knows if the Game is being rebooted */
         private bool rebooted;
-        
+        /** \brief Dictionari to hold 2 sprite frames */
         private Dictionary<int, string[]> ghosts;
+        /** \brief Creates a new "Sprite" "sp" */
         private Sprite sp = new Sprite();
+        /** \brief Declares a PacMan */
         private PacMan pacman;
+        /** \brief Declares a Random */
         private Random rnd;
-
+        /** \brief Current State */
         private GhostState state;
+        /** \brief Last PacMan direction when seen */
         private Direction lastPacDir;
+        /** \brief Current direction */
         private Direction direction;
+        /** \brief This Ghost color */
         private ConsoleColor color;
-
+        /** \brief True or false if this Ghost is dead */
         public bool IsDead { get; private set; }
         
         /// <summary>

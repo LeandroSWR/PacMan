@@ -5,13 +5,15 @@ namespace PacManGame {
     /// This Class is responsible for loading the level using the given files
     /// </summary>
     class LevelLoader {
-        private readonly string path = @""; // Creates a new empty string
-        private readonly string level = "PacMan_Level.txt"; // Creates a new string called "level"
-        private readonly string points = "Points.txt";// Creates a new string called "points"
-
-        // Creates a new string array that'll save the information about the level Walls
+        /** \brief Creates a new empty string */
+        private readonly string path = @"";
+        /** \brief Creates a new string with the file name */
+        private readonly string level = "PacMan_Level.txt";
+        /** \brief Creates a new string with the file name */
+        private readonly string points = "Points.txt";
+        /** \brief TCreates a new string array that'll save the information about the level Walls */
         public string[] LevelSprite { get; private set; } = new string[49];
-        // Creates a new string array that'll save the information about the level Points
+        /** \brief Creates a new string array that'll save the information about the level Points */
         public string[] LevelPoints { get; private set; } = new string[49];
 
         /// <summary>

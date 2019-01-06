@@ -5,22 +5,26 @@ namespace PacManGame {
     /// This Class is responsible for displaying the level
     /// </summary>
     class Level {
-        LevelLoader loader = new LevelLoader(); // Creates a new LevelLoader
-        Sprite sprite = new Sprite(); // Creates a new Sprite
-        // Creates a new string and set it's value to be equal to "loader.LevelSprite"
+        /** \brief Creates a new LevelLoader */
+        LevelLoader loader = new LevelLoader();
+        /** \brief Creates a new Sprite */
+        Sprite sprite = new Sprite();
+        /** \brief Creates a new string and set it's value to be equal to "loader.LevelSprite" */
         private string[] LevelSprite => loader.LevelSprite;
-        // Creates a new string and set it's value to be equal to "loader.LevelPoints"
+        /** \brief Creates a new string and set it's value to be equal to "loader.LevelPoints" */
         private string[] PointsSprite => loader.LevelPoints;
 
         // Four static variables that need to be acceced from other classes
-        public static readonly int x = 107; // Creates a new static readonly int with the value 107
-        public static readonly int y = 49; // Creates a new static readonly int with the value 49
-        // Creates a new static bool array with a private set and size (107, 49)
+        /** \brief Level x size */
+        public static readonly int x = 107;
+        /** \brief Level y size */
+        public static readonly int y = 49;
+        /** \brief Holds the position of all walls colliders */
         public static bool[,] WallCollider { get; private set; } = new bool[x, y];
-        // Creates a new static bool array with a private set and size (107, 49)
+        /** \brief Holds the position of all points colliders */
         public static char[,] PointsCollider { get; private set; } = new char[x, y];
-
-        private int otherFrame = 0; // Creates a new int with the value 0
+        /** \brief Counts the frames to skip when rendering the points */
+        private int otherFrame = 0;
 
         /// <summary>
         /// Level Constructor

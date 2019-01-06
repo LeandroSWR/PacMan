@@ -7,12 +7,14 @@ namespace PacManGame {
     /// This Class is responsible for reading and regestering every keypress from the player
     /// </summary>
     class KeyReader {
-        // Declares a new BlockingCollection of type "ConsoleKey"
-        private BlockingCollection<ConsoleKey> keyQueue; 
-
-        public string Input = ""; // Iniciates a new empty string
-        private Thread thread1; // Declares a new thread
-        private Thread thread2; // Declares a new thread
+        /** \brief Declares a new BlockingCollection to save all ConsoleKey presses */
+        private BlockingCollection<ConsoleKey> keyQueue;
+        /** \brief Saves the last input as a string */
+        public string Input = "";
+        /** \brief Declares a new thread */
+        private Thread thread1;
+        /** \brief Declares a new thread */
+        private Thread thread2;
 
         /// <summary>
         /// KeyReader Constructor

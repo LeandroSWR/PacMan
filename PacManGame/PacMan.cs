@@ -6,34 +6,42 @@ namespace PacManGame {
     /// This Class is responsible for everything related to PacMan
     /// </summary>
     class PacMan {
-        
-        private int animation; // Declares a new int
-        private int speedTimer; // Declares a new int
-        private int totalPoints; // Declares a new int
-        private int animationTimer; // Declares a new int
-        
-        public Direction direction; // Declares a new Direction
-        public Direction nextDirection; // Declares a new Direction
-
-        private readonly int moveSpeed; // Declares a new readonly int
-        private readonly int animationSpeed; // Declares a new readonly int
-
-        public bool IsDead { get; set; } // Declares a new auto implemented bool
-
-        public int Points { get; set; } // Declares a new auto implemented int
-        // Declares a new auto implemented int with a private set
+        /** \brief Knows what animation frame should be shown */
+        private int animation;
+        /** \brief Timer for the movement speed */
+        private int speedTimer;
+        /** \brief Number of points left in the map */
+        private int totalPoints;
+        /** \brief Timer for the animation */
+        private int animationTimer;
+        /** \brief Current direction */
+        public Direction direction;
+        /** \brief Next direction */
+        public Direction nextDirection;
+        /** \brief Movement speed */
+        private readonly int moveSpeed;
+        /** \brief Animation speed */
+        private readonly int animationSpeed;
+        /** \brief True or false if PacMan is dead */
+        public bool IsDead { get; set; }
+        /** \brief Number of points PacMan has */
+        public int Points { get; set; }
+        /** \brief PacMan X position */
         public int X { get; private set; }
-        // Declares a new auto implemented int with a private set
+        /** \brief PacMan Y position */
         public int Y { get; private set; }
-        // Declares a new auto implemented int with a private set
+        /** \brief Number of lives PacMan has */
         public int Health { get; private set; }
-        // Declares a new auto implemented int with a private set
-        public int NLevel { get; private set; } 
-
-        private Dictionary<int, string[]> pac; // Declares new new Dictionary <int, string>
-        private Sprite sp = new Sprite(); // Creates a new "Sprite" "sp"
-        public event Action EatSpecialPoints; // Declares a new Action
-        public event Action Died; // Declares a new Action
+        /** \brief Current level we're in */
+        public int NLevel { get; private set; }
+        /** \brief Dictionari to hold 2 sprite frames */
+        private Dictionary<int, string[]> pac;
+        /** \brief Creates a new "Sprite" "sp" */
+        private Sprite sp = new Sprite();
+        /** \brief Declares a new Action */
+        public event Action EatSpecialPoints;
+        /** \brief Declares a new Action */
+        public event Action Died;
 
         /// <summary>
         /// PacMan constructor

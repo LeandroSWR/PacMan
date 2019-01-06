@@ -6,14 +6,20 @@ namespace PacManGame {
     /// This Class is responsible for looping the game, making it play
     /// </summary>
     class Game {
-
-        private Level level; // Declares a new Level
-        private PacMan pacMan; // Declares a new PacMan
-        private Ghost ghost1; // Declares a new Ghost
-        private Ghost ghost2; // Declares a new Ghost
-        private Ghost ghost3; // Declares a new Ghost
-        private Ghost ghost4; // Declares a new Ghost
-        private KeyReader kR; // Declares a new KeyReader
+        /** \brief Declares a new Level */
+        private Level level;
+        /** \brief Declares a new PacMan */
+        private PacMan pacMan;
+        /** \brief Declares a new Ghost */
+        private Ghost ghost1;
+        /** \brief Declares a new Ghost */
+        private Ghost ghost2;
+        /** \brief Declares a new Ghost */
+        private Ghost ghost3;
+        /** \brief Declares a new Ghost */
+        private Ghost ghost4;
+        /** \brief Declares a new KeyReader */
+        private KeyReader kR;
 
         /// <summary>
         /// Public Game constructor
