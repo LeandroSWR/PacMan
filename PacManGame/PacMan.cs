@@ -112,7 +112,6 @@ namespace PacManGame {
 
             CheckPointsCollision();
             Move();
-            WinCondition();
         }
 
         private void CheckPointsCollision() {
@@ -202,14 +201,19 @@ namespace PacManGame {
             }
         }
 
-        private void WinCondition() {
+        public bool WinCondition() {
 
             if (totalPoints == 0) {
-
+                
                 NLevel++;
                 Points += 10000;
                 totalPoints = 207;
+                Respawn();
+
+                return true;
             }
+
+            return false;
         }
     }
 }

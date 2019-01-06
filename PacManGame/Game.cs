@@ -26,7 +26,7 @@ namespace PacManGame {
         }
 
         private void GameLoop() {
-            while (pacMan.Health != 0) { // Runes the loop untill PacMan is out of lives
+            while (pacMan.Health != 0) { // Runs the loop untill PacMan is out of lives
 
                 pacMan.Plot(); // "Plot" Draws PacMan into the game
                 ghost1.Plot(); // "Plot" Draws the first Ghost into the game
@@ -53,6 +53,21 @@ namespace PacManGame {
                 ghost2.Update(); // Calls the Update method in Ghost
                 ghost3.Update(); // Calls the Update method in Ghost
                 ghost4.Update(); // Calls the Update method in Ghost
+
+                if (pacMan.WinCondition()) {
+
+                    // RESET GHOSTS POSITION
+                    ghost1.Reboot();
+                    ghost2.Reboot();
+                    ghost3.Reboot();
+                    ghost4.Reboot();
+
+                    // RESET PACMAN POSITION
+                    pacMan.Respawn();
+
+                    // RESET POINTS
+                    level.GetCollider();
+                }
             }
         }
 

@@ -18,7 +18,7 @@ namespace PacManGame {
         private int lastPacY;
         
         private bool isVulnerable;
-        private bool reboted;
+        private bool rebooted;
         
         private Dictionary<int, string[]> ghosts;
         private Sprite sp = new Sprite();
@@ -48,7 +48,7 @@ namespace PacManGame {
             timer = 0;
 
             isVulnerable = false;
-            reboted = true;
+            rebooted = true;
             IsDead = false;
 
             ghosts = new Dictionary<int, string[]> {
@@ -78,12 +78,12 @@ namespace PacManGame {
             Console.ForegroundColor = ConsoleColor.White;
 
             // Displays a small animation when the player dies
-            if (reboted) {
+            if (rebooted) {
                 timer++;
                 Thread.Sleep(125);
                 if (timer > 3) {
                     timer = 0;
-                    reboted = false;
+                    rebooted = false;
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace PacManGame {
                 Console.WriteLine("     ");
             }
             // Displays a small animation when the player dies
-            if (reboted) {
+            if (rebooted) {
                 Thread.Sleep(125);
             }
         }
@@ -155,14 +155,14 @@ namespace PacManGame {
 
                 if (!Level.WallCollider[x, y - 1] && !Level.WallCollider[x + 4, y - 1]) {
 
-                    if (chance <= 40) {
+                    if (chance <= 50) {
 
                         direction = Direction.Up;
                     }
 
                 } else if (!Level.WallCollider[x, y + 3] && !Level.WallCollider[x + 4, y + 3]) {
 
-                    if (chance >= 60) {
+                    if (chance > 50) {
 
                         direction = Direction.Down;
                     }
@@ -171,14 +171,14 @@ namespace PacManGame {
 
                 if (!Level.WallCollider[x - 1, y] && !Level.WallCollider[x - 1, y + 2] && !Level.WallCollider[x - 1, y + 1]) {
 
-                    if (chance <= 40) {
+                    if (chance <= 50) {
 
                         direction = Direction.Left;
                     }
 
                 } else if (!Level.WallCollider[x + 5, y] && !Level.WallCollider[x + 5, y + 2] && !Level.WallCollider[x + 5, y + 1]) {
 
-                    if (chance >= 60) {
+                    if (chance > 50) {
 
                         direction = Direction.Right;
                     }
@@ -461,7 +461,7 @@ namespace PacManGame {
             }
         }
 
-        private void Reboot() {
+        public void Reboot() {
             
             switch (ghostNumber) {
                 case 1:
@@ -483,7 +483,7 @@ namespace PacManGame {
             }
 
             state = GhostState.LeavingSpawn;
-            reboted = true;
+            rebooted = true;
         }
     }
 }
