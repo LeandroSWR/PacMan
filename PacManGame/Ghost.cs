@@ -482,6 +482,7 @@ namespace PacManGame {
                     break;
             }
 
+            BackToNormal();
             state = GhostState.LeavingSpawn;
             rebooted = true;
         }

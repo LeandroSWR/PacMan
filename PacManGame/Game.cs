@@ -46,7 +46,7 @@ namespace PacManGame {
                 ghost1.UnPlot(); // "UnPlot" Clear the first Ghost from the game
                 ghost2.UnPlot(); // "UnPlot" Clear the second Ghost from the game
                 ghost3.UnPlot(); // "UnPlot" Clear the third Ghost from the game
-                ghost4.UnPlot(); // "UnPlot" Clear the fourt Ghost from the game
+                ghost4.UnPlot(); // "UnPlot" Clear the fourth Ghost from the game
 
                 pacMan.Update(); // Calls the Update method in PackMan
                 ghost1.Update(); // Calls the Update method in Ghost
@@ -54,21 +54,23 @@ namespace PacManGame {
                 ghost3.Update(); // Calls the Update method in Ghost
                 ghost4.Update(); // Calls the Update method in Ghost
 
-                if (pacMan.WinCondition()) {
 
-                    // RESET GHOSTS POSITION
+                if (pacMan.WinCondition()) { // If PacMan wins...
+
+                    // ...reset Ghosts' position...
                     ghost1.Reboot();
                     ghost2.Reboot();
                     ghost3.Reboot();
                     ghost4.Reboot();
 
-                    // RESET PACMAN POSITION
+                    // ...and reset PacMan position...
                     pacMan.Respawn();
 
-                    // RESET POINTS
+                    // ...and reset eatable points
                     level.GetCollider();
                 }
             }
+            Console.Clear();
         }
 
         private void ReadInput() {

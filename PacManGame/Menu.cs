@@ -30,8 +30,6 @@ namespace PacManGame {
             RenderMenu();
         }
 
-        /* No necessity for the Menu to have another Thread run on the background
-         * since there's nothing else happening than the 'waiting for input' */
         private void GetInput() {
             do {
                 switch (kR.Input) {

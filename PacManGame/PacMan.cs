@@ -198,6 +198,12 @@ namespace PacManGame {
                 Y = 25;
                 direction = Direction.Right;
                 Died();
+
+            } else {
+
+                X = 51;
+                Y = 25;
+                direction = Direction.Right;
             }
         }
 
@@ -206,6 +212,7 @@ namespace PacManGame {
             if (totalPoints == 0) {
                 
                 NLevel++;
+                Health = 3;
                 Points += 10000;
                 totalPoints = 207;
                 Respawn();
