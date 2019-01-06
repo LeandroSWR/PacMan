@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace PacManGame {
     class Program {
         static void Main(string[] args) {
-            Console.CursorVisible = false;
-            Console.SetWindowSize(108, 50);
+            Console.CursorVisible = false; // Hide the cursor
+            Console.SetWindowSize(108, 50); // Set the size for the console window
 
-            Menu menu = new Menu();
+            Menu menu = new Menu(); // Create new Menu
         }
     }
 }

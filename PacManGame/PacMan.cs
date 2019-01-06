@@ -3,33 +3,32 @@ using System.Collections.Generic;
 
 namespace PacManGame {
     class PacMan {
-
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        private Dictionary<int, string[]> ghosts;
-        private Sprite sp = new Sprite();
+        
+        private int timer;
         private int animation;
-        private int animationTimer;
         private int speedTimer;
+        private int totalPoints;
+        private int animationTimer;
+        private int setTime = DateTime.Now.Second;
+        
         public Direction direction;
         public Direction nextDirection;
+
         private readonly int animationSpeed;
         private readonly int moveSpeed;
-        private int setTime = DateTime.Now.Second;
-        private int timer;
-        private int totalPoints;
-
+        
         public bool IsDead { get; set; }
 
+        public int Points { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
         public int Health { get; private set; }
-
         public int NLevel { get; private set; }
 
+        private Dictionary<int, string[]> ghosts;
+        private Sprite sp = new Sprite();
         public event Action EatSpecialPoints;
-
         public event Action Died;
-
-        public int Points { get; set; }
 
         public PacMan(int X, int Y, Direction direction) {
             this.X = X;
