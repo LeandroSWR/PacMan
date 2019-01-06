@@ -377,7 +377,7 @@ namespace PacManGame {
         private void Run() {
             if (!isVulnerable) {
                 isVulnerable = true;
-                color = ConsoleColor.DarkGray;
+                color = ConsoleColor.DarkBlue;
                 moveSpeed = 3;
                 return;
             }

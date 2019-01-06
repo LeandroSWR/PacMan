@@ -12,6 +12,8 @@ namespace PacManGame {
         public static bool[,] WallCollider { get; private set; } = new bool[107, 49];
         public static char[,] PointsCollider { get; private set; } = new char[107, 49];
 
+        private int otherFrame = 0;
+
         public Level() {
             GetCollider();
             RenderLevel();
@@ -35,6 +37,15 @@ namespace PacManGame {
                     }
                 }
             }
+        }
+
+        public void Update(int points, int lives, int level) {
+            RenderUi(points, lives, level);
+            if (otherFrame == 0) {
+                otherFrame += 10;
+                RenderPoints();
+            }
+            otherFrame--;
         }
 
         public void RenderUi(int points, int lives, int level) {
