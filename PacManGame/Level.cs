@@ -161,25 +161,6 @@ namespace PacManGame {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(LevelSprite[i]);
             }
-            // Display Points
-            //Console.ForegroundColor = ConsoleColor.White;
-            //for (int i = 0; i < LevelSprite.Length; i++) {
-            //    if (PointsSprite[i] != null) {
-            //        for (int u = 0; u < PointsSprite[i].Length; u++) {
-            //            if (PointsSprite[i][u] != ' ') {
-            //                if (PointsSprite[i][u] == '█') {
-            //                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-            //                    Console.SetCursorPosition(u, i);
-            //                    Console.Write(PointsSprite[i][u]);
-            //                    Console.ForegroundColor = ConsoleColor.White;
-            //                } else {
-            //                    Console.SetCursorPosition(u, i);
-            //                    Console.Write(PointsSprite[i][u]);
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
             // Display PacMan Logo
             for (int i = 0; i < sprite.packString.Length; i++) {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;

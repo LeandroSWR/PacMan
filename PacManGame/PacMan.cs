@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace PacManGame {
     class PacMan {
-        // Ascii ▄ ▀ █
 
         public int X { get; private set; }
         public int Y { get; private set; }

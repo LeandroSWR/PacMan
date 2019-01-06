@@ -4,9 +4,6 @@ using System.Threading;
 
 namespace PacManGame {
     class Ghost {
-
-        // Ascii ▄ ▀ █
-
         private int x;
         private int y;
         private ConsoleColor color;
